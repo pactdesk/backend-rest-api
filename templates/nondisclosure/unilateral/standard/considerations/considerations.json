@@ -1,0 +1,13 @@
+{
+  "paragraphs": [
+    {
+      "content": "The Receiving Party intends to {{ purpose }} (the \"**Permitted Purpose**\")."
+    },
+    {
+      "content": "In connection with the Permitted Purpose, the Disclosing Party has disclosed or made available, and may further disclose or make available, certain confidential and/or proprietary technical or business information to Receiving Party that the Disclosing Party desires the Receiving Party to treat as confidential."
+    },
+    {
+      "content": "This non-disclosure agreement (the \"**Agreement**\") sets out the covenants and conditions under which such information is provided."
+    }
+  ]
+}

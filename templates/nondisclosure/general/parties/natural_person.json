@@ -1,0 +1,3 @@
+{
+  "content": "{{ name }}, a natural person, born on {{ date_of_birth }} in {{ place_of_birth }}, currently residing at {{ address }} (**{{ role }}**)"
+}

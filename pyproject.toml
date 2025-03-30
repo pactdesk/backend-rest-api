@@ -1,0 +1,123 @@
+[project]
+name = "draftmaster-rest-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.11",
+    "loguru>=0.7.3",
+    "pandas>=2.2.3",
+    "pre-commit>=4.1.0",
+    "pydantic>=2.10.6",
+    "uvicorn>=0.34.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff==0.3.4",
+    "mypy>=1.13.0,<2",
+    "pytest>=8.3.4,<9",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["draftmaster"]
+
+[tool.hatch.build.targets.wheel]
+include = ["draftmaster"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+include = ["*.py", "*.pyi", "**/pyproject.toml"]
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "F",     # pyflakes
+    "UP",    # pyupgrade
+    "D",     # pydocstyle
+    "I",     # isort
+    "N",     # naming
+    "S",     # bandit
+    "BLE",   # blind-except
+    "FBT",   # boolean-trap
+    "B",     # bugbear
+    "A",     # builtins
+    "C4",    # comprehensions
+    "EM",    # errmsg
+    "FA",    # future-annotations
+    "ISC",   # implicit-str-concat
+    "ICN",   # import-conventions
+    "T20",   # print
+    "PT",    # pytest-style
+    "RET",   # return
+    "SIM",   # simplify
+    "PTH",   # pathlib
+    "ERA",   # eradicate
+    "PGH",   # pygrep-hooks
+    "NPY",   # numpy-style
+    "PERF",  # performance
+    "RUF",   # ruff-specific
+]
+fixable = ["ALL"]
+unfixable = []
+ignore = ["ISC001", "E203", "S311"]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+"**/__init__.py" = ["D104"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
+case-sensitive = true
+lines-after-imports = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+
+[tool.pdm.build]
+includes = ["draftmaster"]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "-v"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = ["asyncio: mark test as async"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+
+[[tool.mypy.overrides]]
+module = [
+    "numpy.*",
+    "pandas.*"
+]
+ignore_missing_imports = true
