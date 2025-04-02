@@ -5,6 +5,7 @@
     "party_a": {
       "party_type": "legal_entity",
       "company_type": "B.V.",
+      "name": "Eland",
       "registered_address": {
         "street_name": "Stadshouderskade",
         "house_nr": 2,
@@ -20,6 +21,7 @@
     "party_b": {
       "party_type": "legal_entity",
       "company_type": "B.V.",
+      "name": "Brickmaster",
       "registered_address": {
         "street_name": "Volewijkshof",
         "house_nr": 7,
@@ -30,9 +32,9 @@
       "kvk_nr": 90274828,
       "signatory_name": "M. Brickerd",
       "information_role": "RECEIVING"
-    },
-    "contract_purpose": "perform a KYC check",
-    "applicable_law": "the Netherlands",
-    "place_of_jurisdiction": "Amsterdam"
-  }
+    }
+  },
+  "contract_purpose": "perform a KYC check",
+  "applicable_law": "the Netherlands",
+  "place_of_jurisdiction": "Amsterdam"
 }
