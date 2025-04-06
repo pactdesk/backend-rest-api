@@ -1,18 +1,60 @@
+"""
+Context service for the PactDesk system.
+
+This module provides services for constructing context dictionaries that are used
+to render contract templates. It extracts relevant information from contract requests
+and formats it into a structure that can be used by template engines.
+"""
+
 from loguru import logger
 from pydantic import BaseModel
 
 from pactdesk.models.api.contract import ContractRequest
-from pactdesk.models.domain.context import ContextType, PartyContextType
 from pactdesk.models.domain.enum import ContractType, InformationRole, PartyType
 
 
 class ContextService(BaseModel):
+    """
+    Service for constructing context dictionaries for contract templates.
+
+    This class provides methods for extracting and formatting information from
+    contract requests into context dictionaries that can be used to render
+    contract templates. It handles different contract types and party types,
+    ensuring that all necessary information is included in the context.
+
+    Attributes
+    ----------
+        None: This class does not have any attributes as it only provides
+            static methods for context construction.
+    """
+
+    # TODO: custom Pydantic schema model for dict[str, str]
     @staticmethod
-    def construct_party_context(request: ContractRequest) -> PartyContextType:
+    def construct_party_context(request: ContractRequest) -> dict[str, dict[str, str | int | None]]:
+        """
+        Construct a context dictionary for party information.
+
+        This method extracts party information from a contract request and formats
+        it into a context dictionary that can be used to render party-specific
+        sections of contract templates. It handles both legal entities and natural
+        persons, and assigns appropriate roles based on the number of parties.
+
+        Parameters
+        ----------
+            request: The contract request containing party information.
+
+        Returns
+        -------
+            A dictionary mapping party keys to dictionaries of party information.
+
+        Raises
+        ------
+            ValueError: If a party has an invalid party type.
+        """
         total_parties = len(request.parties)
-        party_context: PartyContextType = {
+        party_context = {
             "_global": {
-                "n_parties": str(total_parties),
+                "n_parties": total_parties,
                 "contract_variant": request.contract_variant.value,
             }
         }
@@ -34,7 +76,7 @@ class ContextService(BaseModel):
                     "company_type": party.company_type.value,
                     "country": party.country_of_incorporation,
                     "address": party.registered_address._formatted,
-                    "kvk_nr": str(party.kvk_nr) if party.kvk_nr is not None else None,
+                    "kvk_nr": party.kvk_nr,
                     "representative": party.signatory_name,
                     "role": role,
                 }
@@ -43,50 +85,119 @@ class ContextService(BaseModel):
                 party_context[key] = {
                     "type": PartyType.NATURAL_PERSON.value,
                     "name": party.full_name,
-                    "date_of_birth": str(party.date_of_birth)
-                    if party.date_of_birth is not None
-                    else None,
+                    "date_of_birth": party.date_of_birth,
                     "place_of_birth": party.place_of_birth,
                     "address": party.address._formatted,
                     "role": role,
                 }
 
+            else:
+                err_msg = (
+                    f"Party type {party.party_type} is not valid. "
+                    "Must be either `legal_entity` or `natural_person`."
+                )
+                raise ValueError(err_msg)
+
         return party_context
 
     @staticmethod
-    def _construct_nondisclosure_context(request: ContractRequest) -> ContextType:
-        context: ContextType = {
-            "contract_purpose": request.contract_purpose,
+    def _construct_nondisclosure_context(request: ContractRequest) -> dict[str, str | int]:
+        """
+        Construct a context dictionary for nondisclosure agreement information.
+
+        This method extracts nondisclosure-specific information from a contract
+        request and formats it into a context dictionary that can be used to
+        render nondisclosure agreement templates.
+
+        Parameters
+        ----------
+            request: The contract request containing nondisclosure information.
+
+        Returns
+        -------
+            A dictionary of nondisclosure agreement context information.
+        """
+        result: dict[str, str | int] = {
+            "city": request.place_of_jurisdiction,
+            "country": request.applicable_law,
+            "purpose": request.contract_purpose,
         }
 
-        if request.penalty_clause:
-            context["penalty_initial_amount"] = str(request.penalty_clause.initial_amount)
-            context["penalty_subsequent_amount"] = str(request.penalty_clause.subsequent_amount)
-
         if request.limited_term:
-            context["term_duration"] = str(request.limited_term.duration_amount)
-            context["term_unit"] = request.limited_term.duration_unit
+            result["duration_amount"] = request.limited_term.duration_amount
+            result["duration_unit"] = request.limited_term.duration_unit
 
-        return context
+        if request.penalty_clause:
+            result["initial_amount"] = request.penalty_clause.initial_amount
+            result["subsequent_amount"] = request.penalty_clause.subsequent_amount
+
+        return result
 
     @staticmethod
-    def _construct_shareholder_context(request: ContractRequest) -> ContextType:
-        # TODO: implement shareholder context
+    def _construct_shareholder_context(request: ContractRequest) -> dict[str, str]:
+        """
+        Construct a context dictionary for shareholders agreement information.
+
+        This method extracts shareholders agreement-specific information from a
+        contract request and formats it into a context dictionary that can be
+        used to render shareholders agreement templates.
+
+        Parameters
+        ----------
+            request: The contract request containing shareholders agreement information.
+
+        Returns
+        -------
+            A dictionary of shareholders agreement context information.
+        """
         return {}
 
     @staticmethod
-    def _construct_management_context(request: ContractRequest) -> ContextType:
-        # TODO: implement management context
+    def _construct_management_context(request: ContractRequest) -> dict[str, str]:
+        """
+        Construct a context dictionary for management agreement information.
+
+        This method extracts management agreement-specific information from a
+        contract request and formats it into a context dictionary that can be
+        used to render management agreement templates.
+
+        Parameters
+        ----------
+            request: The contract request containing management agreement information.
+
+        Returns
+        -------
+            A dictionary of management agreement context information.
+        """
         return {}
 
     @staticmethod
-    def construct_context(request: ContractRequest) -> ContextType | None:
+    def construct_context(request: ContractRequest) -> dict[str, str | int] | None:
+        """
+        Construct a context dictionary based on the contract type.
+
+        This method determines the contract type and calls the appropriate
+        context construction method to generate a context dictionary for
+        rendering the contract template.
+
+        Parameters
+        ----------
+            request: The contract request containing all contract information.
+
+        Returns
+        -------
+            A dictionary of context information for the specific contract type,
+            or None if the contract type is not supported.
+        """
         if request.contract_type == ContractType.NONDISCLOSURE:
             return ContextService._construct_nondisclosure_context(request)
-        elif request.contract_type == ContractType.SHAREHOLDERS:
+
+        if request.contract_type == ContractType.SHAREHOLDERS:
+            logger.debug("Constructing shareholder's agreement context.")
             return ContextService._construct_shareholder_context(request)
-        elif request.contract_type == ContractType.MANAGEMENT:
+
+        if request.contract_type == ContractType.MANAGEMENT:
+            logger.debug("Constructing management agreement context.")
             return ContextService._construct_management_context(request)
-        else:
-            logger.warning(f"Unknown contract type: {request.contract_type}")
-            return None
+
+        return None

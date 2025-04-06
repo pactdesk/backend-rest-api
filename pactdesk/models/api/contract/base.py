@@ -56,7 +56,7 @@ class BaseContractRequest(BaseModel):
         cls: type[T], value: dict[str, Party]
     ) -> dict[str, NaturalPerson | LegalEntity]:
         """
-        Validates that the parties dictionary contains at least one party.
+        Validate that the parties dictionary contains at least one party.
 
         This validator ensures that every contract request has at least one party
         involved, which is a fundamental requirement for any valid contract.
