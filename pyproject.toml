@@ -1,5 +1,5 @@
 [project]
-name = "draftmaster-rest-api"
+name = "pactdesk-rest-api"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -10,6 +10,7 @@ dependencies = [
     "pandas>=2.2.3",
     "pre-commit>=4.1.0",
     "pydantic>=2.10.6",
+    "typing-extensions>=4.12.2",
     "uvicorn>=0.34.0",
 ]
 
@@ -21,10 +22,10 @@ dev = [
 ]
 
 [tool.hatch.build.targets.sdist]
-include = ["draftmaster"]
+include = ["pactdesk"]
 
 [tool.hatch.build.targets.wheel]
-include = ["draftmaster"]
+include = ["pactdesk"]
 
 [tool.ruff]
 line-length = 100
@@ -91,7 +92,7 @@ skip-magic-trailing-comma = false
 docstring-code-format = true
 
 [tool.pdm.build]
-includes = ["draftmaster"]
+includes = ["pactdesk"]
 
 [build-system]
 requires = ["pdm-backend"]
