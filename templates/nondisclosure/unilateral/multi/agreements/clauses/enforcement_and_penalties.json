@@ -1,0 +1,17 @@
+{
+  "title": "Enforcement and Penalties",
+  "paragraphs": [
+    {
+      "content": "Each Receiving Party acknowledges that any breach of its obligations under this Agreement, including but not limited to the unauthorized use or disclosure of Confidential Information, shall constitute a material breach of this Agreement."
+    },
+    {
+      "content": "In the event of such breach, the Receiving Party in breach shall owe the Disclosing Party an immediately payable contractual penalty of EUR {{ initial_amount }} per breach, and EUR {{ subsequent_amount }} for each day the breach continues, without prejudice to the Disclosing Party's right to claim full compensation for damages suffered, to the extent such damages exceed the penalty."
+    },
+    {
+      "content": "The payment of such penalty shall not release any Receiving Party from its continuing obligations under this Agreement, nor shall it preclude the Disclosing Party from seeking injunctive relief, equitable remedies, or any other legal remedy available under applicable law."
+    },
+    {
+      "content": "The Parties agree that the penalty referred to in this clause constitutes a reasonable pre-estimate of the loss likely to be suffered and is not to be construed as a limitation of liability."
+    }
+  ]
+}
