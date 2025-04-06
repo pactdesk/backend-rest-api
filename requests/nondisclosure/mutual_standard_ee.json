@@ -1,6 +1,6 @@
 {
   "contract_type": "nondisclosure",
-  "contract_variant": "unilateral/standard",
+  "contract_variant": "mutual/standard",
   "parties": {
     "party_a": {
       "party_type": "legal_entity",
@@ -16,7 +16,7 @@
       "country_of_incorporation": "the Netherlands",
       "kvk_nr": "2872498",
       "signatory_name": "H. Eland",
-      "information_role": "DISCLOSING"
+      "information_role": "MUTUAL"
     },
     "party_b": {
       "party_type": "legal_entity",
@@ -31,7 +31,7 @@
       "country_of_incorporation": "the Netherlands",
       "kvk_nr": "90274828",
       "signatory_name": "M. Brickerd",
-      "information_role": "RECEIVING"
+      "information_role": "MUTUAL"
     }
   },
   "contract_purpose": "perform a KYC check",

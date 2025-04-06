@@ -1,6 +1,6 @@
 {
   "contract_type": "nondisclosure",
-  "contract_variant": "unilateral/standard",
+  "contract_variant": "unilateral/multi",
   "parties": {
     "party_a": {
       "party_type": "legal_entity",
@@ -32,11 +32,46 @@
       "kvk_nr": "90274828",
       "signatory_name": "M. Brickerd",
       "information_role": "RECEIVING"
+    },
+    "party_c": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "name": "H&M",
+      "registered_address": {
+        "street_name": "Rokin",
+        "house_nr": "111",
+        "city": "Amsterdam",
+        "postcode": "1017 AG"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": "827489202",
+      "signatory_name": "J. Smith",
+      "information_role": "RECEIVING"
+    },
+    "party_d": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "name": "PactDesk",
+      "registered_address": {
+        "street_name": "Neude",
+        "house_nr": "2",
+        "city": "Utrecht",
+        "postcode": "3512 AD",
+        "suffix": "A"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": "827489202",
+      "signatory_name": "J. Smith",
+      "information_role": "RECEIVING"
     }
   },
   "contract_purpose": "perform a KYC check",
   "applicable_law": "the Netherlands",
   "place_of_jurisdiction": "Amsterdam",
+  "penalty_clause": {
+    "initial_amount": 50000,
+    "subsequent_amount": 5000
+  },
   "limited_term": {
     "duration_amount": 5,
     "duration_unit": "years"

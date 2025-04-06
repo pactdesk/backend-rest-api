@@ -1,0 +1,39 @@
+{
+  "contract_type": "nondisclosure",
+  "contract_variant": "unilateral/standard",
+  "parties": {
+    "party_a": {
+      "party_type": "natural_person",
+      "full_name": "Harm Maurits Marijn Eland",
+      "address": {
+        "street_name": "Bentinckstraat",
+        "house_nr": "19",
+        "city": "Amsterdam",
+        "postcode": "1051 GD",
+        "suffix": "-1"
+      },
+      "date_of_birth": "1997-06-16",
+      "place_of_birth": "Amersfoort",
+      "country_of_birth": "the Netherlands",
+      "information_role": "DISCLOSING"
+    },
+    "party_b": {
+      "party_type": "natural_person",
+      "full_name": "Pleun Petra Johanna Eland",
+      "address": {
+        "street_name": "Neude",
+        "house_nr": "2",
+        "city": "Utrecht",
+        "postcode": "3512 AG",
+        "suffix": "A"
+      },
+      "date_of_birth": "1994-06-15",
+      "place_of_birth": "Reston, Virginia",
+      "country_of_birth": "United States",
+      "information_role": "RECEIVING"
+    }
+  },
+  "contract_purpose": "conduct technical integration discussions",
+  "applicable_law": "the Netherlands",
+  "place_of_jurisdiction": "Amsterdam"
+}

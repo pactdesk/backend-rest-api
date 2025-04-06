@@ -19,22 +19,22 @@
       "information_role": "DISCLOSING"
     },
     "party_b": {
-      "party_type": "legal_entity",
-      "company_type": "B.V.",
-      "name": "Brickmaster",
-      "registered_address": {
-        "street_name": "Volewijkshof",
-        "house_nr": "7",
-        "city": "Amsterdam",
-        "postcode": "1031 AG"
+      "party_type": "natural_person",
+      "full_name": "Pleun Petra Johanna Eland",
+      "address": {
+        "street_name": "Neude",
+        "house_nr": "2",
+        "city": "Utrecht",
+        "postcode": "3512 AG",
+        "suffix": "A"
       },
-      "country_of_incorporation": "the Netherlands",
-      "kvk_nr": "90274828",
-      "signatory_name": "M. Brickerd",
+      "date_of_birth": "1994-06-15",
+      "place_of_birth": "Reston, Virginia",
+      "country_of_birth": "United States",
       "information_role": "RECEIVING"
     }
   },
-  "contract_purpose": "perform a KYC check",
+  "contract_purpose": "conduct technical integration discussions",
   "applicable_law": "the Netherlands",
   "place_of_jurisdiction": "Amsterdam"
 }
