@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
-
-from traitlets import Any
+from typing import Any, cast
 
 
 class TemplateService:
@@ -9,7 +8,7 @@ class TemplateService:
 
     def load(self, path: Path) -> dict[str, Any]:
         with Path.open(path) as f:
-            return json.load(f)
+            return cast(dict[str, Any], json.load(f))
 
     def load_legal_entity(self) -> dict[str, Any]:
         return self.load(self.base_path / "general" / "parties" / "legal_entity.json")

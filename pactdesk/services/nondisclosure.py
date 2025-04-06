@@ -1,14 +1,14 @@
 from pathlib import Path
 from typing import Any
 
-from draftmaster.models.api.contract.nondisclosure import NondisclosureRequest
-from draftmaster.models.domain.base import BaseText, Clause, Paragraph, Section
-from draftmaster.models.domain.contract import Contract
-from draftmaster.models.domain.enum import PartyType
-from draftmaster.services import ContextService, TemplateService
+from pactdesk.models.api.contract.nondisclosure import NondisclosureRequest
+from pactdesk.models.domain.base import BaseText, Clause, Paragraph, Section
+from pactdesk.models.domain.contract import Contract
+from pactdesk.models.domain.enum import NdaContractVariant, PartyType
+from pactdesk.services import ContextService, TemplateService
 
 
-class NondisclosureFactory:
+class NondisclosureService:
     def __init__(
         self,
         request: NondisclosureRequest,
@@ -37,7 +37,6 @@ class NondisclosureFactory:
             "return_or_destruction_of",
             "third_party_stipulation",
             "no_warranty",
-            "information_receiving_party",
             "miscellaneous",
         ]
 
@@ -54,11 +53,12 @@ class NondisclosureFactory:
     def _generate_parties(self) -> Section:
         party_context = self.context_service.construct_party_context(self.request)
 
+        party_keys = [key for key in party_context.keys() if key != "_global"]
         subsections = [
             self.template_service.load_legal_entity()
             if party_context[party]["type"] == PartyType.LEGAL_ENTITY.value
             else self.template_service.load_natural_person()
-            for party in party_context.keys()
+            for party in party_keys
         ]
 
         section = self._create_section("parties", subsections)
@@ -97,9 +97,8 @@ class NondisclosureFactory:
         term_clause = Clause(**self._load_template(agreements_path, "term", f"{term_type}.json"))
 
         if self.request.penalty_clause:
-            enforcement_path = self.contract_path / "general" / "agreements" / "clauses"
             enforcement_clause = Clause(
-                **self._load_template(enforcement_path, "enforcement_and_penalties.json")
+                **self._load_template(clauses_path, "enforcement_and_penalties.json")
             )
         else:
             enforcement_clause = Clause(
@@ -111,6 +110,15 @@ class NondisclosureFactory:
         )
         clauses.insert(no_warranty_index, enforcement_clause)
         clauses.insert(no_warranty_index, term_clause)
+
+        if self.request.contract_variant in [
+            NdaContractVariant.UNILATERAL_STANDARD,
+            NdaContractVariant.UNILATERAL_MULTI,
+        ]:
+            information_receiving_party_clause = Clause(
+                **self._load_template(clauses_path, "information_receiving_party.json")
+            )
+            clauses.insert(no_warranty_index + 2, information_receiving_party_clause)
 
         return self._create_section("agreements", clauses)
 

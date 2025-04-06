@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from draftmaster.models.domain.base import Section
+from pactdesk.models.domain.base import Section
 
 
 class Contract(BaseModel):

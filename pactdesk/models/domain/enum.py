@@ -11,7 +11,7 @@ class ContractType(str, Enum):
 
 class NdaContractVariant(str, Enum):
     UNILATERAL_STANDARD = "unilateral/standard"
-    UNILATERAL_MULTI = "unitlateral/multi"
+    UNILATERAL_MULTI = "unilateral/multi"
     MUTUAL_STANDARD = "mutual/standard"
     MUTUAL_MULTI = "mutual/multi"
 

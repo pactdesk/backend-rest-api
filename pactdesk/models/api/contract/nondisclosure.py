@@ -1,9 +1,14 @@
+from typing import Self, TypeVar
+
 from pydantic import Field, model_validator
 
-from draftmaster.models.api.contract.base import BaseContractRequest
-from draftmaster.models.domain.enum import ContractType, NdaContractVariant
-from draftmaster.models.domain.penalty import Penalty
-from draftmaster.models.domain.term import Term
+from pactdesk.models.api.contract.base import BaseContractRequest
+from pactdesk.models.domain.enum import ContractType, NdaContractVariant
+from pactdesk.models.domain.penalty import Penalty
+from pactdesk.models.domain.term import Term
+
+
+T = TypeVar("T", bound=BaseContractRequest)
 
 
 class NondisclosureRequest(BaseContractRequest):
@@ -16,8 +21,8 @@ class NondisclosureRequest(BaseContractRequest):
     penalty_clause: Penalty | None = None
     limited_term: Term | None = None
 
-    @model_validator(mode="after")
-    def validate_information_roles(self):
+    @model_validator(mode="after")  # type: ignore[misc]
+    def validate_information_roles(self) -> Self:
         for party_key, party in self.parties.items():
             if not party.information_role:
                 err_msg = f"Information role must be set for party '{party_key}' in an NDA contract"
@@ -32,6 +37,7 @@ class NondisclosureRequest(BaseContractRequest):
             )
 
             if disclosing_count != 1:
-                raise ValueError("Unilateral NDA's must have exactly one disclosing party")
+                err_msg = "Unilateral NDA's must have exactly one disclosing party"
+                raise ValueError(err_msg)
 
         return self
