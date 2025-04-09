@@ -1,45 +1,48 @@
 {
   "contract_type": "nondisclosure",
+  "contract_variant": "unilateral/standard",
   "parties": {
     "party_a": {
       "party_type": "legal_entity",
+      "name": "Company A",
       "company_type": "B.V.",
       "registered_address": {
         "street_name": "Stadshouderskade",
-        "house_nr": 2,
+        "house_nr": "2",
         "city": "Amsterdam",
         "postcode": "1000 AB",
         "suffix": "A"
       },
       "country_of_incorporation": "the Netherlands",
-      "kvk_nr": 2872498,
+      "kvk_nr": "2872498",
       "signatory_name": "H. Eland",
       "information_role": "DISCLOSING"
     },
     "party_b": {
       "party_type": "legal_entity",
+      "name": "Company B",
       "company_type": "B.V.",
       "registered_address": {
         "street_name": "Volewijkshof",
-        "house_nr": 7,
+        "house_nr": "7",
         "city": "Amsterdam",
         "postcode": "1031 AG"
       },
       "country_of_incorporation": "the Netherlands",
-      "kvk_nr": 90274828,
+      "kvk_nr": "90274828",
       "signatory_name": "M. Brickerd",
       "information_role": "RECEIVING"
-    },
-    "contract_purpose": "perform a KYC check",
-    "applicable_law": "the Netherlands",
-    "place_of_jurisdiction": "Amsterdam",
-    "penalty_clause": {
-      "initial_amount": 50000,
-      "subsequent_amount": 5000
-    },
-    "limited_term": {
-      "duration_amount": 5,
-      "duration_unit": "years"
     }
+  },
+  "contract_purpose": "perform a KYC check",
+  "applicable_law": "the Netherlands",
+  "place_of_jurisdiction": "Amsterdam",
+  "penalty_clause": {
+    "initial_amount": 50000,
+    "subsequent_amount": 5000
+  },
+  "limited_term": {
+    "duration_amount": 5,
+    "duration_unit": "years"
   }
 }

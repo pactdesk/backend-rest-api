@@ -1,0 +1,13 @@
+{
+  "paragraphs": [
+    {
+      "content": "The Parties intend to {{ purpose }} (the \"**Permitted Purpose**\")."
+    },
+    {
+      "content": "In connection with the Permitted Purpose, either Party (in such capacity, the \"**Disclosing Party**\") has disclosed or made available, and may (further) disclose or make available, certain confidential and/or proprietary business, financial, technical, or other information to the other Party (in such capacity, the \"**Receiving Party**\") that the Disclosing Party desires the Receiving Party to treat as confidential."
+    },
+    {
+      "content": "This mutual non-disclosure agreement (the \"**Agreement**\") sets out the terms and conditions under which such information is shared and protected among the Parties."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "title": "Definitions",
+  "paragraphs": [
+    {
+      "heading": "*Definition of Confidential Information*",
+      "content": "\"**Confidential Information**\" means any and all technical and non-technical information disclosed or provided, directly or indirectly, by the Disclosing Party to the Receiving Party (whether by oral, written, graphic, or machine-readable format or by inspection of tangible objects). Confidential Information includes, without limitation:",
+      "subparagraphs": [
+        {
+          "content": "technical data, trade secrets, know-how, research, experimental work, product or service ideas or plans, design details and specifications, software codes and designs, algorithms, developments, models, inventions, patents and patent applications, laboratory notebooks, processes, prototypes, formulas, techniques, samples, data sets, equipment, engineering designs and drawings, sketches, works of authorship, hardware configuration information, regulatory information, medical reports, clinical data and analysis, and agreements with third parties;"
+        },
+        {
+          "content": "lists of, or information relating to, employees and consultants of the Disclosing Party (including, but not limited to, the names, contact information, jobs, compensation, and expertise of such employees and consultants),"
+        },
+        {
+          "content": "lists of, or information relating to, suppliers and customers, price lists, pricing methodologies, cost data, market share data, sales and marketing plans, licenses, contract information, business plans, procurement requirements, financial forecasts, historical financial data, and budgets or other business or financial information; and"
+        },
+        {
+          "content": "all other information that the Receiving Party knew, or reasonably should have known, is confidential in nature; in each case whether or not designated or marked as \"confidential\" at the time of disclosure."
+        }
+      ]
+    },
+    {
+      "content": "Confidential Information may also include information of a third party that is in the Disclosing Party's possession and is disclosed to a Receiving Party under this Agreement. The Parties agree that any Confidential Information disclosed prior to the date of this Agreement will be governed by the terms of this Agreement. Any reference to \"Confidential Information\" in this Agreement shall be construed to mean Confidential Information of the Disclosing Party."
+    },
+    {
+      "content": "Confidential Information shall not, however, include any information that the Receiving Party can establish:",
+      "subparagraphs": [
+        {
+          "content": "was publicly known or made generally available without a duty of confidentiality prior to the time of disclosure to the Receiving Party by the Disclosing Party;"
+        },
+        {
+          "content": "becomes publicly known or made generally available without a duty of confidentiality after disclosure to the Receiving Party by the Disclosing Party through no action or inaction of the Receiving Party; or"
+        },
+        {
+          "content": "is in the rightful possession of the Receiving Party without confidentiality obligations at the time of disclosure by the Disclosing Party to the Receiving Party as shown by the Receiving Party's then-contemporaneous written files and records kept in the ordinary course of business."
+        }
+      ]
+    },
+    {
+      "heading": "*Definition of Representative(s)*",
+      "content": "\"**Representative(s)**\" means in relation to any Party",
+      "subparagraphs": [
+        {
+          "content": "its directors, officers, employees, and agents"
+        },
+        {
+          "content": "its professional advisors and consultants (including, without limitation, financial advisers, legal counsel and accountants);"
+        },
+        {
+          "content": "any other person to whom the Disclosing Party agrees in writing that Confidential Information of that Disclosing Party may be disclosed."
+        }
+      ]
+    },
+    {
+      "heading": "*Definition of Affiliate*",
+      "content": "\"**Affiliate**\" means in relation to any Party any person, partnership, corporation or other form of enterprise, domestic or foreign, including subsidiaries, that directly or indirectly, control, are controlled by, or are under common control with that Party."
+    }
+  ]
+}

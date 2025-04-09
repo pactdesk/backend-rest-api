@@ -1,0 +1,17 @@
+{
+  "title": "Non-use and non-disclosure",
+  "paragraphs": [
+    {
+      "content": "Each Receiving Party shall not use any Confidential Information for any purpose other than the Permitted Purpose."
+    },
+    {
+      "content": "Each Receiving Party shall not disclose any Confidential Information or permit any Confidential Information to be disclosed, either directly or indirectly, to any third party without the Disclosing Party's prior written consent."
+    },
+    {
+      "content": "Each Receiving Party shall not disclose Confidential Information or permit the disclosure of Confidential Information to its Representatives, except that a Receiving Party may disclose Confidential Information to those Representatives of that Receiving Party who are required to have the information in order for the Receiving Party to conduct the Permitted Purpose, provided that such Representative has signed a non-use and non-disclosure agreement in content at least as protective as the provisions hereof, prior to any disclosure of Confidential Information to such Representative. Accordingly, each Receiving Party shall be responsible and liable for any breach by any of its Representatives of the provisions of this Agreement that apply to such Representative as if it were a Party hereto."
+    },
+    {
+      "content": "Each Receiving Party shall not, directly or indirectly, modify, adapt, translate, create derivative works of, reverse engineer, decompile, disassemble, or otherwise attempt to derive the composition, functionality, or structure of any licensed materials, software, documentation, prototypes, or other tangible or intangible assets embodying the Confidential Information, except as expressly permitted under this Agreement"
+    }
+  ]
+}
