@@ -1,0 +1,4 @@
+{
+  "content": "{{ name }}, a {{ company_type }} incorporated and existing under the laws of {{ country }}, with its registered office in {{ address }}, registered with the Trade Register of {{ country }} under {{ kvk_nr }}, hereby validly represented by {{ representative }} (**{{ role }}**)"
+}
+  
