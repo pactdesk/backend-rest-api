@@ -1,0 +1,63 @@
+{
+  "contract_type": "nondisclosure",
+  "contract_variant": "unilateral/multi",
+  "parties": {
+    "party_a": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "name": "Eland",
+      "registered_address": {
+        "street_name": "Stadshouderskade",
+        "house_nr": "2",
+        "city": "Amsterdam",
+        "postcode": "1000 AB",
+        "suffix": "A"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": "2872498",
+      "signatory_name": "H. Eland",
+      "information_role": "DISCLOSING"
+    },
+    "party_b": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "name": "Brickmaster",
+      "registered_address": {
+        "street_name": "Volewijkshof",
+        "house_nr": "7",
+        "city": "Amsterdam",
+        "postcode": "1031 AG"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": "90274828",
+      "signatory_name": "M. Brickerd",
+      "information_role": "RECEIVING"
+    },
+    "party_c": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "name": "H&M",
+      "registered_address": {
+        "street_name": "Rokin",
+        "house_nr": "111",
+        "city": "Amsterdam",
+        "postcode": "1017 AG"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": "827489202",
+      "signatory_name": "J. Smith",
+      "information_role": "RECEIVING"
+    }
+  },
+  "contract_purpose": "perform a KYC check",
+  "applicable_law": "the Netherlands",
+  "place_of_jurisdiction": "Amsterdam",
+  "penalty_clause": {
+    "initial_amount": 50000,
+    "subsequent_amount": 5000
+  },
+  "limited_term": {
+    "duration_amount": 5,
+    "duration_unit": "years"
+  }
+}
