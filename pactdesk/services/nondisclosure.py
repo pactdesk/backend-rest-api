@@ -1,3 +1,10 @@
+"""Module for handling nondisclosure agreement generation.
+
+This module provides services for generating nondisclosure agreements (NDA's) from
+templates and request data. It handles the construction of all sections of an NDA,
+including parties, considerations, agreements, and signatures.
+"""
+
 from pathlib import Path
 
 from loguru import logger
@@ -11,11 +18,39 @@ from pactdesk.services.template import TemplateService
 
 
 class NondisclosureService:
+    """Service for generating non-disclosure agreements.
+
+    This class handles the complete process of generating an NDA from a request,
+    including loading templates, constructing sections, and rendering the final
+    document.
+
+    Attributes
+    ----------
+        request (NondisclosureRequest): The NDA generation request.
+        variant (str): The NDA variant (unilateral or mutual).
+        parties (str): The parties configuration (standard or multi).
+        base_path (Path): The base directory for template files.
+        context_service (ContextService): Service for constructing context data.
+        template_service (TemplateService): Service for loading templates.
+        context (dict[str, str | int | None] | None): The general context data.
+        party_context (dict[str, dict[str, str | int | None]]): The party context data.
+        general_path (Path): Path to general templates.
+        contract_path (Path): Path to contract-specific templates.
+        variant_path (Path): Path to variant-specific templates.
+        standard_clauses (list[str]): List of standard clause names.
+    """
+
     def __init__(
         self,
         request: NondisclosureRequest,
         base_path: Path = Path("templates"),
     ) -> None:
+        """Initialize the NDA service with a request and template path.
+
+        Args:
+            request (NondisclosureRequest): The NDA generation request.
+            base_path (Path): The base directory for template files.
+        """
         self.request = request
         self.variant, self.parties = request.contract_variant.split("/")
         self.base_path = base_path
@@ -46,6 +81,16 @@ class NondisclosureService:
     def _create_section(
         self, section_name: str, subsections: list[BaseText | Paragraph | Clause]
     ) -> Section:
+        """Create a section with the given name and subsections.
+
+        Args:
+            section_name (str): The name of the section to create.
+            subsections (list[BaseText | Paragraph | Clause]): The section's content.
+
+        Returns
+        -------
+            Section: The created section.
+        """
         section_template = self.template_service.load(
             self.general_path / "sections" / f"{section_name}.json"
         )
@@ -54,6 +99,15 @@ class NondisclosureService:
         return Section(**section_template)
 
     def _generate_parties(self) -> Section:
+        """Generate the parties section of the NDA.
+
+        This method creates a section containing information about all parties
+        involved in the NDA, including their roles and contact details.
+
+        Returns
+        -------
+            Section: The generated parties section.
+        """
         party_context = self.context_service.construct_party_context(self.request)
 
         party_keys = [key for key in party_context if key != "_global"]
@@ -75,6 +129,15 @@ class NondisclosureService:
         return section
 
     def _generate_considerations(self) -> Section:
+        """Generate the considerations section of the NDA.
+
+        This method creates a section describing the considerations exchanged
+        between the parties in the NDA.
+
+        Returns
+        -------
+            Section: The generated considerations section.
+        """
         considerations_data = self.template_service.load(
             self.variant_path / "considerations" / "considerations.json"
         )
@@ -94,6 +157,20 @@ class NondisclosureService:
         return self._create_section("considerations", paragraphs)
 
     def _generate_agreements(self) -> Section:
+        """Generate the agreements section of the NDA.
+
+        This method creates a section containing all the clauses that make up
+        the main body of the NDA, including standard clauses and any additional
+        terms or penalties.
+
+        Returns
+        -------
+            Section: The generated agreements section.
+
+        Raises
+        ------
+            Exception: If there is an error loading any clause.
+        """
         agreements_path = self.variant_path / "agreements"
         clauses_path = agreements_path / "clauses"
 
@@ -135,9 +212,31 @@ class NondisclosureService:
         return self._create_section("agreements", typed_clauses)
 
     def _generate_signatures(self) -> Section:
+        """Generate the signatures section of the NDA.
+
+        This method creates a section containing signature blocks for all parties
+        to sign the NDA.
+
+        Returns
+        -------
+            Section: The generated signatures section.
+        """
         return self._create_section("signatures", [])
 
     def generate(self) -> Contract:
+        """Generate a complete NDA from the request.
+
+        This method orchestrates the generation of all sections of the NDA and
+        combines them into a complete contract document.
+
+        Returns
+        -------
+            Contract: The generated NDA contract.
+
+        Raises
+        ------
+            ValueError: If the context or party context is missing.
+        """
         if not self.context or not self.party_context:
             err_msg = "Context or party context is missing"
             raise ValueError(err_msg)

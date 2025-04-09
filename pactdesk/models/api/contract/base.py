@@ -1,11 +1,8 @@
-"""
-Base contract request models for the PactDesk API.
+"""Module for handling base contract request models.
 
-This module defines the foundational contract request models that serve as the base
-for all specific contract types in the PactDesk system. It provides the common
-structure and validation logic that all contract requests must adhere to, ensuring
-consistency across different contract types while allowing for specialized behavior
-in derived classes.
+This module defines the foundational models for contract requests in the API,
+including validation logic and common attributes shared across different
+contract types.
 """
 
 from typing import TypeVar
@@ -19,8 +16,7 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class BaseContractRequest(BaseModel):
-    """
-    Base model for all contract requests in the PactDesk system.
+    """Base model for contract generation requests.
 
     This class defines the common structure and validation rules that all contract
     requests must follow. It establishes the fundamental contract properties such
@@ -34,15 +30,15 @@ class BaseContractRequest(BaseModel):
 
     Attributes
     ----------
-        contract_type: The type of contract being requested, which determines the
-            specific template and validation rules to be applied.
-        parties: A dictionary mapping party identifiers to Party objects, representing
-            all entities involved in the contract. Each party can be either a natural
-            person or a legal entity.
-        applicable_law: The legal jurisdiction whose laws will govern the interpretation
-            and enforcement of the contract.
-        place_of_jurisdiction: The specific location where any legal proceedings
-            related to the contract must be conducted.
+        contract_type (str): The type of contract being requested, which determines
+            the specific template and validation rules to be applied.
+        parties (dict[str, Party]): Dictionary mapping party identifiers to Party
+            objects, representing all entities involved in the contract. Each party
+            can be either a natural person or a legal entity.
+        applicable_law (str): The legal jurisdiction whose laws will govern the
+            interpretation and enforcement of the contract.
+        place_of_jurisdiction (str): The specific location where any legal
+            proceedings related to the contract must be conducted.
     """
 
     contract_type: str
@@ -50,28 +46,27 @@ class BaseContractRequest(BaseModel):
     applicable_law: str
     place_of_jurisdiction: str
 
-    @field_validator("parties")  # type: ignore[misc]
     @classmethod
+    @field_validator("parties")  # type: ignore[misc]
     def validate_parties(
         cls: type[T], value: dict[str, Party]
     ) -> dict[str, NaturalPerson | LegalEntity]:
-        """
-        Validate that the parties dictionary contains at least one party.
+        """Validate that the parties dictionary contains at least one party.
 
         This validator ensures that every contract request has at least one party
         involved, which is a fundamental requirement for any valid contract.
         Without parties, a contract would have no subjects to bind, making it
         legally meaningless.
 
-        Parameters
-        ----------
-            cls: The class object, automatically provided by the decorator.
-            value: A dictionary mapping party identifiers to Party objects,
-                representing all entities involved in the contract.
+        Args:
+            cls (type[T]): The class object, automatically provided by the decorator.
+            value (dict[str, Party]): Dictionary mapping party identifiers to Party
+                objects, representing all entities involved in the contract.
 
         Returns
         -------
-            The validated parties dictionary, containing at least one party.
+            dict[str, NaturalPerson | LegalEntity]: The validated parties dictionary,
+                containing at least one party.
 
         Raises
         ------

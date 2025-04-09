@@ -1,3 +1,10 @@
+"""Module for handling context construction in contract generation.
+
+This module provides services for constructing the context data needed for
+rendering contract templates. It handles different types of contracts and
+their specific context requirements.
+"""
+
 from loguru import logger
 from pydantic import BaseModel
 
@@ -7,8 +14,31 @@ from pactdesk.models.domain.party import LegalEntity, NaturalPerson
 
 
 class ContextService(BaseModel):
+    """Service for constructing context data for contract templates.
+
+    This class provides methods for building the context data needed to render
+    contract templates, including party-specific and contract-type-specific
+    information.
+    """
+
     @staticmethod
     def construct_party_context(request: ContractRequest) -> dict[str, dict[str, str | int | None]]:
+        """Construct the context data for contract parties.
+
+        This method builds a dictionary containing all party-specific information
+        needed for template rendering, including roles and contact details.
+
+        Args:
+            request (ContractRequest): The contract request containing party data.
+
+        Returns
+        -------
+            dict[str, dict[str, str | int | None]]: The constructed party context.
+
+        Raises
+        ------
+            ValueError: If an invalid party type is encountered.
+        """
         total_parties = len(request.parties)
         party_context: dict[str, dict[str, str | int | None]] = {
             "_global": {
@@ -59,6 +89,18 @@ class ContextService(BaseModel):
 
     @staticmethod
     def _construct_nondisclosure_context(request: ContractRequest) -> dict[str, str | int | None]:
+        """Construct the context data for non-disclosure agreements.
+
+        This method builds a dictionary containing all NDA-specific information
+        needed for template rendering, including purpose and term details.
+
+        Args:
+            request (ContractRequest): The NDA contract request.
+
+        Returns
+        -------
+            dict[str, str | int | None]: The constructed NDA context.
+        """
         context: dict[str, str | int | None] = {
             "city": request.place_of_jurisdiction,
             "country": request.applicable_law,
@@ -85,14 +127,45 @@ class ContextService(BaseModel):
 
     @staticmethod
     def _construct_shareholder_context(request: ContractRequest) -> dict[str, str | int | None]:
+        """Construct the context data for shareholder agreements.
+
+        Args:
+            request (ContractRequest): The shareholder agreement request.
+
+        Returns
+        -------
+            dict[str, str | int | None]: The constructed shareholder context.
+        """
         return {}
 
     @staticmethod
     def _construct_management_context(request: ContractRequest) -> dict[str, str | int | None]:
+        """Construct the context data for management agreements.
+
+        Args:
+            request (ContractRequest): The management agreement request.
+
+        Returns
+        -------
+            dict[str, str | int | None]: The constructed management context.
+        """
         return {}
 
     @staticmethod
     def construct_context(request: ContractRequest) -> dict[str, str | int | None] | None:
+        """Construct the appropriate context based on contract type.
+
+        This method routes the context construction to the appropriate handler
+        based on the contract type specified in the request.
+
+        Args:
+            request (ContractRequest): The contract request.
+
+        Returns
+        -------
+            dict[str, str | int | None] | None: The constructed context or None if
+                the contract type is not supported.
+        """
         if request.contract_type == ContractType.NONDISCLOSURE:
             return ContextService._construct_nondisclosure_context(request)
 

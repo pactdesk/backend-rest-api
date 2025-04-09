@@ -1,4 +1,4 @@
-"""Module for handling NDA contract requests.
+"""Module for handling non-disclosure agreement request models.
 
 This module provides the NondisclosureRequest class which represents a request to generate
 a non-disclosure agreement. It includes validation for party roles and contract variants,
@@ -20,7 +20,7 @@ T = TypeVar("T", bound="NondisclosureRequest")
 
 
 class NondisclosureRequest(BaseContractRequest):
-    """Represents a request to generate a non-disclosure agreement.
+    """Model for nondisclosure agreement generation requests.
 
     This class extends BaseContractRequest to handle NDA-specific requirements and
     validations. It ensures proper configuration of parties, contract variants, and
