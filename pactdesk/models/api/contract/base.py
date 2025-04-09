@@ -21,18 +21,19 @@ T = TypeVar("T", bound=BaseModel)
 class BaseContractRequest(BaseModel):
     """
     Base model for all contract requests in the PactDesk system.
-    
+
     This class defines the common structure and validation rules that all contract
     requests must follow. It establishes the fundamental contract properties such
     as contract type, parties involved, applicable law, and jurisdiction. The class
     implements validation logic to ensure that contract requests contain at least
     one party, maintaining the integrity of the contract generation process.
-    
+
     This base class is designed to be extended by specific contract type models
     that add additional fields and validation rules relevant to their particular
     contract category.
 
-    Attributes:
+    Attributes
+    ----------
         contract_type: The type of contract being requested, which determines the
             specific template and validation rules to be applied.
         parties: A dictionary mapping party identifiers to Party objects, representing
@@ -55,22 +56,25 @@ class BaseContractRequest(BaseModel):
         cls: type[T], value: dict[str, Party]
     ) -> dict[str, NaturalPerson | LegalEntity]:
         """
-        Validates that the parties dictionary contains at least one party.
-        
+        Validate that the parties dictionary contains at least one party.
+
         This validator ensures that every contract request has at least one party
         involved, which is a fundamental requirement for any valid contract.
         Without parties, a contract would have no subjects to bind, making it
         legally meaningless.
 
-        Parameters:
+        Parameters
+        ----------
             cls: The class object, automatically provided by the decorator.
             value: A dictionary mapping party identifiers to Party objects,
                 representing all entities involved in the contract.
 
-        Returns:
+        Returns
+        -------
             The validated parties dictionary, containing at least one party.
 
-        Raises:
+        Raises
+        ------
             ValueError: If the parties dictionary is empty.
         """
         if not value:
