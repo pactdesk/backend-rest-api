@@ -1,0 +1,11 @@
+{
+  "title": "Term",
+  "paragraphs": [
+    {
+      "content": "The confidentiality and use restrictions under this Agreement shall remain in effect for a period of {{ duration_amount }} {{ duration_unit }} from the date of disclosure of the relevant Confidential Information, unless a shorter period is specified in writing by the Disclosing Party."
+    },
+    {
+      "content": "Notwithstanding the foregoing, each Party shall maintain the confidentiality of any Confidential Information that constitutes a trade secret under applicable law for as long as such information retains its status as a trade secret."
+    }
+  ]
+} 
