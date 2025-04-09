@@ -1,0 +1,65 @@
+{
+  "title": "Definitions",
+  "paragraphs": [
+    {
+      "heading": "*Definition of Confidential Information*",
+      "content": "\"**Confidential Information**\" means any and all technical and non-technical information disclosed or provided, directly or indirectly, by the Disclosing Party to any of the Receiving Parties (whether by oral, written, graphic, or machine-readable format or by inspection of tangible objects). Confidential Information includes, without limitation:",
+      "subparagraphs": [
+        {
+          "content": "technical data, trade secrets, know-how, research, experimental work, product or service ideas or plans, design details and specifications, software codes and designs, algorithms, developments, models, inventions, patents and patent applications, laboratory notebooks, processes, prototypes, formulas, techniques, samples, data sets, equipment, engineering designs and drawings, sketches, works of authorship, hardware configuration information, regulatory information, medical reports, clinical data and analysis, and agreements with third parties;"
+        },
+        {
+          "content": "lists of, or information relating to, employees and consultants of the Disclosing Party (including, but not limited to, the names, contact information, jobs, compensation, and expertise of such employees and consultants),"
+        },
+        {
+          "content": "lists of, or information relating to, suppliers and customers, price lists, pricing methodologies, cost data, market share data, sales and marketing plans, licenses, contract information, business plans, procurement requirements, financial forecasts, historical financial data, and budgets or other business or financial information; and"
+        },
+        {
+          "content": "all other information that any Receiving Party knew, or reasonably should have known, is confidential in nature; in each case whether or not designated or marked as \"confidential\" at the time of disclosure. Confidential Information may also include information of a third party that is in the Disclosing Party's possession and is disclosed to any Receiving Party under this Agreement. The Parties agree that any Confidential Information disclosed prior to the date of this Agreement will be governed by the terms of this Agreement."
+        }
+      ]
+    },
+    {
+      "content": "Confidential Information shall not, however, include any information that a Receiving Party can establish:",
+      "subparagraphs": [
+        {
+          "content": "was publicly known or made generally available without a duty of confidentiality prior to the time of disclosure to any Receiving Party by the Disclosing Party;"
+        },
+        {
+          "content": "becomes publicly known or made generally available without a duty of confidentiality after disclosure to any Receiving Party by the Disclosing Party through no action or inaction of any Receiving Party; or"
+        },
+        {
+          "content": "is in the rightful possession of a Receiving Party without confidentiality obligations at the time of disclosure by the Disclosing Party to that Receiving Party as shown by that Receiving Party's then-contemporaneous written files and records kept in the ordinary course of business."
+        }
+      ]
+    },
+    {
+      "heading": "*Definition of Representative(s)*",
+      "content": "\"**Representative(s)**\" means in relation to any Party",
+      "subparagraphs": [
+        {
+          "content": "its directors, officers, employees, and agents"
+        },
+        {
+          "content": "its professional advisors and consultants (including, without limitation, financial advisers, legal counsel and accountants);"
+        },
+        {
+          "content": "any other person to whom the Disclosing Party agrees in writing that Confidential Information of that Disclosing Party may be disclosed."
+        }
+      ]
+    },
+    {
+      "heading": "*Definition of Affiliate*",
+      "content": "\"**Affiliate**\" means in relation to any Party any person, partnership, corporation or other form of enterprise, domestic or foreign, including subsidiaries, that directly or indirectly, control, are controlled by, or are under common control with that Party."
+    },
+    {
+      "heading": "*Compelled Disclosure*",
+      "content": "If any Receiving Party becomes legally compelled by a valid order of a court or other governmental body having jurisdiction to disclose any Confidential Information, that Receiving Party will provide the Disclosing Party prompt prior notice of such disclosure obligation and will obtain or will assist the Disclosing Party in obtaining a protective order or other appropriate remedy preventing or limiting the disclosure and/or requiring that the Confidential Information so disclosed be used only for the purposes for which the law or regulation required, or for which the order was issued, or another appropriate remedy acceptable to the Disclosing Party.",
+      "subparagraphs": [
+        {
+          "content": "If a protective order or other appropriate remedy acceptable to the Disclosing Party is not obtained with respect to a legally compelled disclosure, the applicable Receiving Party will furnish only that portion of the Confidential Information that is legally required to be disclosed, provided that any Confidential Information so disclosed shall maintain its confidentiality protection for all purposes other than such legally compelled disclosure."
+        }
+      ]
+    }
+  ]
+} 
