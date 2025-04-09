@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Any
 
 from loguru import logger
 
@@ -15,14 +14,14 @@ class NondisclosureService:
     def __init__(
         self,
         request: NondisclosureRequest,
-        base_path: Path | None = None,
+        base_path: Path = Path("templates"),
     ) -> None:
         self.request = request
         self.variant, self.parties = request.contract_variant.split("/")
         self.base_path = base_path
 
         self.context_service = ContextService()
-        self.template_service = TemplateService()
+        self.template_service = TemplateService(base_path=base_path)
 
         self.context = self.context_service.construct_context(request)
         self.party_context = self.context_service.construct_party_context(request)
@@ -44,38 +43,43 @@ class NondisclosureService:
             "miscellaneous",
         ]
 
-    def _load_template(self, *path_parts: str) -> dict[str, Any]:
-        return self.template_service.load(Path(*path_parts))
-
-    def _create_section(self, section_name: str, subsections: list[Any]) -> Section:
-        section_template = self._load_template(
-            self.general_path, "sections", f"{section_name}.json"
+    def _create_section(
+        self, section_name: str, subsections: list[BaseText | Paragraph | Clause]
+    ) -> Section:
+        section_template = self.template_service.load(
+            self.general_path / "sections" / f"{section_name}.json"
         )
-        section_template["subsections"] = subsections
+        typed_subsections: list[BaseText | Paragraph | Clause] = list(subsections)
+        section_template["subsections"] = typed_subsections
         return Section(**section_template)
 
     def _generate_parties(self) -> Section:
         party_context = self.context_service.construct_party_context(self.request)
 
-        party_keys = [key for key in party_context.keys() if key != "_global"]
-        subsections = [
+        party_keys = [key for key in party_context if key != "_global"]
+        subsections: list[BaseText] = [
             self.template_service.load_legal_entity()
             if party_context[party]["type"] == PartyType.LEGAL_ENTITY.value
             else self.template_service.load_natural_person()
             for party in party_keys
         ]
-        
+
         section = self._create_section("parties", subsections)
-        section.closing = self._load_template(self.variant_path, "parties", "closing.json")
-        
+        closing_template = self.template_service.load(
+            self.variant_path / "parties" / "closing.json"
+        )
+        section.closing = (
+            BaseText(**closing_template) if isinstance(closing_template, dict) else closing_template
+        )
+
         return section
 
     def _generate_considerations(self) -> Section:
-        considerations_data = self._load_template(
-            self.variant_path, "considerations", "considerations.json"
+        considerations_data = self.template_service.load(
+            self.variant_path / "considerations" / "considerations.json"
         )
 
-        paragraphs = []
+        paragraphs: list[BaseText | Paragraph] = []
         if "paragraphs" in considerations_data:
             for paragraph in considerations_data["paragraphs"]:
                 if isinstance(paragraph, dict):
@@ -83,8 +87,9 @@ class NondisclosureService:
                         paragraphs.append(Paragraph(**paragraph))
                     else:
                         paragraphs.append(BaseText(**paragraph))
+
                 else:
-                    paragraphs.append(paragraph)
+                    paragraphs.append(BaseText(content=str(paragraph)))
 
         return self._create_section("considerations", paragraphs)
 
@@ -92,29 +97,32 @@ class NondisclosureService:
         agreements_path = self.variant_path / "agreements"
         clauses_path = agreements_path / "clauses"
 
-        clauses = []
+        clauses: list[Clause] = []
         for clause in self.standard_clauses:
             logger.debug(f"Loading clause: {clause}")
             try:
-                clause_data = self._load_template(clauses_path, f"{clause}.json")
+                clause_data = self.template_service.load(clauses_path / f"{clause}.json")
                 clauses.append(Clause(**clause_data))
-            except Exception as e:
-                logger.error(f"Error loading clause {clause}: {str(e)}")
+
+            except Exception as err:
+                logger.error(f"Error loading clause {clause}: {err!s}")
                 raise
 
         term_type = "limited" if self.request.limited_term else "unlimited"
         logger.debug(f"Loading term clause: {term_type}")
-        term_clause = Clause(**self._load_template(agreements_path, "term", f"{term_type}.json"))
+        term_clause = Clause(
+            **self.template_service.load(agreements_path / "term" / f"{term_type}.json")
+        )
 
         if self.request.penalty_clause:
             logger.debug("Loading enforcement_and_penalties.json")
             enforcement_clause = Clause(
-                **self._load_template(clauses_path, "enforcement_and_penalties.json")
+                **self.template_service.load(clauses_path / "enforcement_and_penalties.json")
             )
         else:
             logger.debug("Loading enforcement_and_remedies.json")
             enforcement_clause = Clause(
-                **self._load_template(clauses_path, "enforcement_and_remedies.json")
+                **self.template_service.load(clauses_path / "enforcement_and_remedies.json")
             )
 
         no_warranty_index = next(
@@ -123,12 +131,17 @@ class NondisclosureService:
         clauses.insert(no_warranty_index, enforcement_clause)
         clauses.insert(no_warranty_index, term_clause)
 
-        return self._create_section("agreements", clauses)
+        typed_clauses: list[BaseText | Paragraph | Clause] = list(clauses)
+        return self._create_section("agreements", typed_clauses)
 
     def _generate_signatures(self) -> Section:
         return self._create_section("signatures", [])
 
     def generate(self) -> Contract:
+        if not self.context or not self.party_context:
+            err_msg = "Context or party context is missing"
+            raise ValueError(err_msg)
+
         return Contract(
             parties=self._generate_parties().render(self.party_context),
             considerations=self._generate_considerations().render(self.context),

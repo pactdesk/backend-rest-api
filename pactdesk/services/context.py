@@ -3,16 +3,16 @@ from pydantic import BaseModel
 
 from pactdesk.models.api.contract import ContractRequest
 from pactdesk.models.domain.enum import ContractType, InformationRole, PartyType
+from pactdesk.models.domain.party import LegalEntity, NaturalPerson
 
 
 class ContextService(BaseModel):
-    # TODO: custom Pydantic schema model for dict[str, str]
     @staticmethod
-    def construct_party_context(request: ContractRequest) -> dict[str, dict[str, str | None]]:
+    def construct_party_context(request: ContractRequest) -> dict[str, dict[str, str | int | None]]:
         total_parties = len(request.parties)
-        party_context = {
+        party_context: dict[str, dict[str, str | int | None]] = {
             "_global": {
-                "n_parties": total_parties,
+                "n_parties": str(total_parties),
                 "contract_variant": request.contract_variant.value,
             }
         }
@@ -25,9 +25,9 @@ class ContextService(BaseModel):
                     else "the Receiving Party"
                 )
             else:
-                role = party.name
-            
-            if party.party_type == PartyType.LEGAL_ENTITY.value:
+                role = party.name if isinstance(party, LegalEntity) else party.full_name
+
+            if isinstance(party, LegalEntity):
                 party_context[key] = {
                     "type": PartyType.LEGAL_ENTITY.value,
                     "name": party.name,
@@ -38,8 +38,7 @@ class ContextService(BaseModel):
                     "representative": party.signatory_name,
                     "role": role,
                 }
-
-            elif party.party_type == PartyType.NATURAL_PERSON.value:
+            elif isinstance(party, NaturalPerson):
                 party_context[key] = {
                     "type": PartyType.NATURAL_PERSON.value,
                     "name": party.full_name,
@@ -59,39 +58,41 @@ class ContextService(BaseModel):
         return party_context
 
     @staticmethod
-    def _construct_nondisclosure_context(request: ContractRequest) -> dict[str, str]:
-        return {
+    def _construct_nondisclosure_context(request: ContractRequest) -> dict[str, str | int | None]:
+        context: dict[str, str | int | None] = {
             "city": request.place_of_jurisdiction,
             "country": request.applicable_law,
             "purpose": request.contract_purpose,
-            **(
-                {
-                    "duration_amount": request.limited_term.duration_amount,
-                    "duration_unit": request.limited_term.duration_unit,
-                }
-                if request.limited_term
-                else {}
-            ),
-            **(
-                {
-                    "initial_amount": request.penalty_clause.initial_amount,
-                    "subsequent_amount": request.penalty_clause.subsequent_amount,
-                }
-                if request.penalty_clause
-                else {}
-            ),
         }
 
+        if request.limited_term:
+            context.update(
+                {
+                    "duration_amount": str(request.limited_term.duration_amount),
+                    "duration_unit": request.limited_term.duration_unit,
+                }
+            )
+
+        if request.penalty_clause:
+            context.update(
+                {
+                    "initial_amount": str(request.penalty_clause.initial_amount),
+                    "subsequent_amount": str(request.penalty_clause.subsequent_amount),
+                }
+            )
+
+        return context
+
     @staticmethod
-    def _construct_shareholder_context(request: ContractRequest) -> dict[str, str]:
+    def _construct_shareholder_context(request: ContractRequest) -> dict[str, str | int | None]:
         return {}
 
     @staticmethod
-    def _construct_management_context(request: ContractRequest) -> dict[str, str]:
+    def _construct_management_context(request: ContractRequest) -> dict[str, str | int | None]:
         return {}
 
     @staticmethod
-    def construct_context(request: ContractRequest) -> dict[str, str] | None:
+    def construct_context(request: ContractRequest) -> dict[str, str | int | None] | None:
         if request.contract_type == ContractType.NONDISCLOSURE:
             return ContextService._construct_nondisclosure_context(request)
 
