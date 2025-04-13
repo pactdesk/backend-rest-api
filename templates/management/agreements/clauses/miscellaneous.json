@@ -1,0 +1,46 @@
+{
+    "title": "Miscellaneous",
+    "paragraphs": [
+      {
+        "heading": "*Terms in Dutch*",
+        "content": "This Agreement is drafted in the English language. In this Agreement Dutch terms and legal concepts are expressed in English terms and not in their original Dutch terms. Where Dutch equivalents of these English terms have been given in italics, the meaning of the Dutch term shall prevail in interpreting the term. Terms and expressions of law and of legal concepts as used in this Agreement shall have the meaning attributed to them under the laws of the Netherlands and this Agreement should be read and interpreted accordingly."
+      },
+      {
+        "heading": "*No termination*",
+        "content": "Each Party waives the right to (seek to) rescind (*ontbinden*), nullify (*vernietigen*) or otherwise terminate or amend this Agreement, in whole or in part, in or out of court, except as expressly provided for in this Agreement."
+      },
+      {
+        "heading": "*No assignment*",
+        "content": "No Party shall be entitled to assign or transfer, whether legally (*goederenrechtelijke werking*) or contractually (*verbintenisrechtelijke werking*), all or any part of its rights and/or obligations under this Agreement without the prior written consent of the other Party. Any assignment or transfer of this Agreement in violation of this clause shall be deemed null and void and shall have no legal effect."
+      },
+      {
+        "heading": "*Entire agreement*",
+        "content": "This Agreement constitutes the entire agreement between the Parties concerning the subject matter hereof and supersedes all prior oral or written agreements, understandings, representations, or statements between them relating to the same subject matter. Each Party acknowledges that it has not relied on any statement, representation, warranty, or promise not expressly set out in this Agreement."
+      },
+      {
+        "heading": "*Invalidity*",
+        "content": "If any term or provision of this Agreement is found by a court or arbitral tribunal of competent jurisdiction to be invalid, illegal, or unenforceable, the remaining terms and provisions shall remain in full force and effect. In such a case, the Parties shall use their best efforts to replace the invalid, illegal, or unenforceable provision with a valid and enforceable provision that, to the greatest extent possible, achieves the same legal and commercial effect as intended by the original provision."
+      },
+      {
+        "heading": "*Amendment*",
+        "content": "Any amendment or variation of this Agreement is not valid, unless mutually agreed between the Parties in writing and signed by both Parties."
+      },
+      {
+        "heading": "*Waiver*",
+        "content": "A Party's failure to enforce any provision of this Agreement shall neither be construed as a waiver of the provision nor prevent the Party from enforcing any other provision of this Agreement. No Party shall be deemed to have waived any of its rights under this Agreement, unless such waiver has been made explicitly and in writing."
+      },
+      {
+        "heading": "*Governing law*",
+        "content": "This Agreement and any non-contractual obligations arising out of or in connection with it, shall be governed by and construed in accordance with the laws of {{ country }}."
+      },
+      {
+        "heading": "*Dispute resolution*",
+        "content": "Any dispute arising out of or in connection with this Agreement shall in first instance be exclusively submitted to the competent courts in {{ city }}, {{ country }}."
+      },
+      {
+        "heading": "*Counterparts*",
+        "content": "This Agreement may be signed through electronic signatures, or in one or more counterpart originals, each of which shall constitute an original document, but all of which together constitute one and the same agreement."
+      }
+    ]
+  }
+  

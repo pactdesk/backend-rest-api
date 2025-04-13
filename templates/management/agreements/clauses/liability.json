@@ -1,0 +1,26 @@
+{
+    "title": "Liability",
+    "paragraphs": [
+      {
+        "content": "The Contractor shall be liable for any and all damage incurred by the Principal that is directly caused by a breach of this Agreement by the Contractor."
+      },
+      {
+        "content": "The Principal shall not be liable to the Contractor or the Manager for any material or immaterial damage suffered by either party as a result of, or in connection with, the Contractor's performance of its obligations under this Agreement."
+      },
+      {
+        "content": "The Principal shall not be liable for any indirect, consequential, or incidental damages, including but not limited to loss of profits, revenue, or goodwill."
+      },
+      {
+        "content": "The exclusions and limitations set out in this Clause {{ liability_clause_idx }} shall not apply to:",
+        "subparagraphs": [
+          {
+            "content": "any damage resulting from a breach of Clause {{ company_property_clause_idx }} (Company Property) or Clause {{ confidentiality_clause_idx }} (Confidentiality);"
+          },
+          {
+            "content": "damage caused by gross negligence or willful misconduct."
+          }
+        ]
+      }
+    ]
+  }
+  

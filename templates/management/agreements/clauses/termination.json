@@ -1,0 +1,29 @@
+{
+    "title": "Termination",
+    "paragraphs": [
+      {
+        "content": "Either Party shall be entitled to terminate this Agreement with immediate effect, without prior court intervention and without any obligation to pay damages or compensation, by means of written notice if:",
+        "subparagraphs": [
+          {
+            "content": "the other Party is in default or breach of this Agreement and, after having been notified thereof in writing with a cure period of at least ten (10) business days, fails to fulfil its obligations in a timely or proper manner;"
+          },
+          {
+            "content": "the other Party has committed fraud, made a material misrepresentation, or — after receiving written notice — continues or repeats conduct that obstructs proper performance of the Agreement;"
+          },
+          {
+            "content": "the other Party is declared bankrupt, applies for bankruptcy, or is granted a suspension of payments, or enters into any other insolvency or debt restructuring proceeding."
+          }
+        ]
+      },
+      {
+        "content": "This Agreement shall terminate automatically and with immediate effect, without any notice being required, if the Contractor is dismissed or resigns as a statutory director of the Principal."
+      },
+      {
+        "content": "If and when the Contractor is dismissed or resigns as a statutory director of the Principal, the Contractor shall fully cooperate with the deregistration from relevant public registers (such as the trade register of the Chamber of Commerce), regardless of the reason for such dismissal or resignation."
+      },
+      {
+        "content": "Any termination pursuant to Clause {{ termination_paragraph_1 }} or {{ termination_paragraph_2 }} shall result in the immediate termination of the Agreement. No further compensation shall be payable for the period following termination, provided that any compensation accrued up to the date of termination (including outstanding expenses) shall remain due and payable."
+      }
+    ]
+  }
+  

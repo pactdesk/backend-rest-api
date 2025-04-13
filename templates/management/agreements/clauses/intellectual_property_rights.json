@@ -1,0 +1,17 @@
+{
+  "title": "Intellectual Property Rights",
+  "paragraphs": [
+    {
+      "content": "The Principal shall, in advance, be regarded as the designer and/or creator of, including but not limited to, all literary, scientific, or artistic works and/or all drawings, models, inventions, methods, processes, machines, products and/or trademarks, brands, trade names, logos and/or know-how, information, concepts, ideas and/or documentation that are protected by any intellectual property right and that are designed, developed, created, manufactured, applied, used and/or recorded in any form or on any medium by the Contractor in the course of performing the Assignment. All related intellectual property rights shall vest in the Principal, unless the Parties have explicitly agreed otherwise in writing. The assignment of such rights is hereby accepted by the Principal."
+    },
+    {
+      "content": "To the extent necessary, the Contractor shall provide full cooperation to the Principal, at the Principal's request and expense, for the registration, confirmation and/or transfer of any intellectual property referred to in Clause {{ intellectual_property_rights_paragraph_1 }}. This includes the execution of all documents and other instruments necessary or desirable to give full effect to such registration or transfer, including acting on behalf of the Principal where required."
+    },
+    {
+      "content": "In addition to the Fee described in Clause {{ fee_and_expenses_clause_idx }} of this Agreement, the Contractor shall not be entitled to any separate compensation for the creation of the intellectual property rights referred to in Clause {{ intellectual_property_rights_paragraph_1 }} and/or for the cooperation described in Clause {{ intellectual_property_rights_paragraph_2 }}. Such compensation shall be deemed included in the Fee."
+    },
+    {
+      "content": "The Contractor shall ensure that any intellectual property as referred to in Clause {{ intellectual_property_rights_paragraph_1 }} that is created or contributed to by the Manager, or by any other person engaged by the Contractor in connection with the Assignment, shall be subject to the same provisions as set out in Clauses {{ intellectual_property_rights_paragraph_1 }} through {{ intellectual_property_rights_paragraph_3 }}. The Contractor shall remain fully responsible for ensuring that such intellectual property vests in the Principal and for procuring any required cooperation or assignments from the relevant individuals."
+    }
+  ]
+}

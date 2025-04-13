@@ -1,0 +1,23 @@
+{
+  "title": "Fee and Expenses",
+  "paragraphs": [
+    {
+      "content": "The Principal shall pay the Contractor a monthly fee (the **\"Fee\"**) of EUR {{ fee_amount }} (excluding VAT), based on the expectation that the Contractor will spend {{ hours_amount }} hours per week performing the Management Services."
+    },
+    {
+      "content": "The Contractor shall only be entitled to the Fee referred to in {{ fee_and_expenses_paragraph_1 }} for periods during which the Management Services have actually been performed. If the Contractor, or the Manager on its behalf, has only partially performed the Management Services, the Contractor shall only be entitled to a pro rata portion of the Fee, or no Fee at all if no Management Services were performed."
+    },
+    {
+      "content": "All reasonable business expenses incurred by the Contractor in the performance of the Management Services shall be reimbursed by the Principal, provided they are invoiced separately and accompanied by appropriate supporting documentation. Any expense exceeding {{ prior_approval_amount }} shall require the prior written approval of the Principal. Such expense reimbursements shall be paid on a bank account designated by the Contractor, within {{ reimbursement_amount_of_days }} {{ reimbursement_amount_unit }} of receipt of the corresponding invoice."
+    },
+    {
+      "content": "Other than the Fee and the reimbursed expenses referred to in {{ fee_and_expenses_paragraph_1 }} and {{ fee_and_expenses_paragraph_3 }}, the Contractor shall not be entitled to any further compensation from the Principal in connection with the Management Services."
+    },  
+    {
+      "content": "The Manager shall not be personally entitled to any compensation of any kind from the Principal in connection with this Agreement or the performance of the Management Services. The Contractor shall indemnify and hold harmless the Principal against any claims from the Manager in this respect."
+    },
+    {
+      "content": "If the use of the Principal's tools or equipment is required for the performance of the Management Services, such use has been factored into the agreed Fee and shall not give rise to any additional compensation."
+    }
+  ]
+}

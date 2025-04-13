@@ -1,0 +1,11 @@
+{
+  "title": "Invoicing and Payment",
+  "paragraphs": [
+    {
+      "content": "The Contractor shall invoice the Fee monthly in arrears. Invoices shall include a specification and be issued in the name of the Principal. All invoices must comply with applicable legal requirements. VAT shall be charged over the invoice amount."
+    },
+    {
+      "content": "The Principal shall pay the Fee within {{ invoice_duration }} {{ invoice_duration_unit }} of the invoice date."
+    }
+  ]
+}

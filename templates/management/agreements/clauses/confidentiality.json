@@ -1,0 +1,14 @@
+{
+  "title": "Confidentiality",
+  "paragraphs": [
+    {
+      "content": "During the term of this Agreement and thereafter, the Contractor shall keep all information relating to the Principal and its business and affairs strictly confidential, including but not limited to all data, documents, drawings, specifications, proposals, customer lists, as well as (business) information and know-how of the Principal in the broadest sense of the word. The Contractor shall not disclose or reproduce any such information in any way without the prior written consent of the Principal."
+    },
+    {
+      "content": "The Contractor shall ensure that all such confidential information is used solely for the performance of the Assignment and is handled with appropriate care and discretion. Any such information shall be returned or securely destroyed upon termination of the Agreement or earlier upon request."
+    },
+    {
+      "content": "The Contractor shall ensure that the Manager complies with the provisions of this Clause {{ confidentiality_clause }}."
+    }
+  ]
+}

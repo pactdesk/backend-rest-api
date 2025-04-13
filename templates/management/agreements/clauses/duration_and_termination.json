@@ -1,0 +1,15 @@
+{
+    "title": "Duration and Termination",
+    "paragraphs": [
+      {
+        "content": "This Agreement shall enter into force on {{ date }} and is concluded for an indefinite period of time (the **\"Term**\"). The Agreement may be terminated in accordance with Clause {{ termination_clause_idx }}, in which case it shall terminate with immediate effect without prior written notice being required."
+      },
+      {
+        "content": "Either Party may terminate this Agreement at any time by giving written notice with a notice period of {{ notice_period_amount }} {{ notice_period_unit }}, without prejudice to the provisions of Clause {{ termination_clause_idx }}."
+      },
+      {
+        "content": "The Principal expressly agrees that the Contractor is entitled to perform services for other clients as well."
+      }
+    ]
+  }
+  

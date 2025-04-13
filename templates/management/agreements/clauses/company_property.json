@@ -1,0 +1,14 @@
+{
+  "title": "Company Property",
+  "paragraphs": [
+    {
+      "content": "All items made available by the Principal to the Contractor, including (digital) (copies of) data in connection with this Agreement - such as, but not limited to, financial information, customer information, expense records, accounting files, tax data, sales figures, business projections, personnel information, business plans, formulas, names of distributors or sales personnel, or any other information that may reasonably be considered to belong to the Principal - shall be promptly returned to the Principal in good condition upon termination of this Agreement, or earlier upon the Principal's request."
+    },
+    {
+      "content": "The Contractor shall not use such items or information for any purpose other than the performance of the Assignment for the Principal."
+    },
+    {
+      "content": "The Contractor shall ensure that the Manager complies with the provisions of Clauses {{ company_property_paragraph_1 }} and {{ company_property_paragraph_2 }} of this Agreement."
+    }
+  ]
+}
