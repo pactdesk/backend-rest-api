@@ -1,0 +1,2 @@
+class ManagementService:
+    pass
