@@ -1,0 +1,48 @@
+{
+  "contract_type": "management",
+  "parties": {
+    "party_a": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "registered_address": {
+        "street_name": "Stadshouderskade",
+        "house_nr": 2,
+        "city": "Amsterdam",
+        "postcode": "1000 AB",
+        "suffix": "A"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": 2872498,
+      "signatory_name": "H. Eland",
+      "information_role": "DISCLOSING"
+    },
+    "party_b": {
+      "party_type": "legal_entity",
+      "company_type": "B.V.",
+      "registered_address": {
+        "street_name": "Volewijkshof",
+        "house_nr": 7,
+        "city": "Amsterdam",
+        "postcode": "1031 AG"
+      },
+      "country_of_incorporation": "the Netherlands",
+      "kvk_nr": 90274828,
+      "signatory_name": "M. Brickerd",
+      "information_role": "RECEIVING"
+    },
+    "business_activities": "providing tax services in the Cloud",
+    "date_of_appointment": "2025-01-01",
+    "term_start_date": "2025-01-01",
+    "notice_period_amount": 1,
+    "notice_period_unit": "month",
+    "fee_amount": 1000,
+    "hours_amount": 10,
+    "prior_approval_amount": 100,
+    "reimbursement_amount_of_days": 10,
+    "reimbursement_amount_unit": "days",
+    "invoice_duration": 14,
+    "invoice_duration_unit": "days",
+    "applicable_law": "the Netherlands",
+    "place_of_jurisdiction": "Amsterdam"
+  }
+}
