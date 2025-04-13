@@ -1,0 +1,32 @@
+{
+  "title": "TAKE INTO CONSIDERATION:",
+  "paragraphs": [
+    {
+      "content": "The Principal is directly or indirectly active in the field of {{ business_activities }};"
+    },
+    {
+      "content": "The Contractor possesses expertise that is relevant to the Principal, and the Principal therefore wishes to engage the services of the Contractor;"
+    },
+    {
+      "content": "On {{ date }}, the Contractor has been appointed as statutory director of the Principal"
+    },
+    {
+      "content": "The Principal is directly or indirectly active in the field of {{ business_activities }};"
+    },
+    {
+      "content": "The Parties wish to record in this agreement (\"**Agreement**\") the terms and conditions under which the Contractor shall perform services for the Principal;"
+    },
+    {
+      "content": "The Parties wish to contract exclusively on the basis of an agreement for services within the meaning of Article 7:400 et seq. of the Dutch Civil Code;"
+    },
+    {
+      "content": "The Parties explicitly acknowledge that they do not intend to create an employment relationship within the meaning of Article 7:610 et seq. of the Dutch Civil Code. This qualification is an essential element of this Agreement, without which the Parties would not have entered into it;"
+    },
+    {
+      "content": "Where applicable, the Parties explicitly opt out of the deemed employment relationship (*fictieve dienstbetrekking*) for persons working from home (*thuiswerkers*) or persons treated as employees (*gelijkgestelden*), as referred to in Articles 2b and 2c of the Implementation Decree on Wage Tax Act 1965 (*Uitvoeringsbesluit loonbelasting 1965*) and Articles 1 and 5 of the Decree of 24 December 1986 (*Stb. 1986, 655*). For this purpose, the Parties confirm that this Agreement is concluded and signed prior to any payments being made;"
+    },
+    {
+      "content": "This Agreement is based on the model contract assessed and approved by the Dutch Tax Authorities on 1 June 2021, under reference number 90821.25537.1.0. The provisions highlighted in that model contract are reproduced in this Agreement in English, without substantive modification. To the extent that any adjustments have been made, the Parties explicitly confirm that such adjustments do not alter the intent or effect of the corresponding provisions as highlighted in the approved model."
+    }
+  ]
+}
