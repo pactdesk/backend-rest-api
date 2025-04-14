@@ -6,8 +6,9 @@ legal contracts in the PactDesk system, with Jinja2 template rendering.
 
 from typing import Any, Self
 
-from jinja2 import Template
 from pydantic import BaseModel, Field
+
+from pactdesk.models.domain.base import Clause
 
 
 class Contract(BaseModel):
@@ -32,10 +33,67 @@ class Contract(BaseModel):
     )
     signatures: object = Field(..., description="The signatures section of the contract")
 
-    def render(self, context: dict[str, Any] | None = None) -> Self:
-        """Render the contract with the given context using Jinja2.
+    def _get_sections(self) -> list[object]:
+        """Get all sections of the contract in order.
 
-        This method applies the context data to all sections of the contract.
+        Returns
+        -------
+            list[object]: List of all sections in the contract.
+        """
+        return [self.parties, self.considerations, self.agreements, self.signatures]
+
+    def _process_clause(self, clause: Clause, indices: dict[str, int]) -> None:
+        """Process a single clause and add its indices to the dictionary.
+
+        Args:
+            clause (Clause): The clause to process.
+            indices (dict[str, int]): The dictionary to store indices in.
+        """
+        if clause.position is None:
+            return
+
+        clause_name = clause.title.lower().replace(" ", "_")
+        indices[f"{clause_name}_clause_idx"] = clause.position
+
+        if clause.paragraphs:
+            for i, _ in enumerate(clause.paragraphs, 1):
+                indices[f"{clause_name}_paragraph_{i}"] = i
+
+    def _process_section(self, section: object, indices: dict[str, int]) -> None:
+        """Process a single section and add its clause indices to the dictionary.
+
+        Args:
+            section (object): The section to process.
+            indices (dict[str, int]): The dictionary to store indices in.
+        """
+        if not hasattr(section, "subsections"):
+            return
+
+        for subsection in section.subsections:
+            if isinstance(subsection, Clause):
+                self._process_clause(subsection, indices)
+
+    def assign_positions(self) -> None:
+        """Assign positions to all sections, clauses, and paragraphs in the contract."""
+        current_position = 1
+        for section in self._get_sections():
+            if hasattr(section, "assign_positions"):
+                current_position = section.assign_positions(current_position)
+
+    def get_indices(self) -> dict[str, int]:
+        """Generate a dictionary of clause and paragraph indices.
+
+        Returns
+        -------
+            dict[str, int]: A dictionary mapping clause and paragraph names to their indices.
+        """
+        indices: dict[str, int] = {}
+        for section in self._get_sections():
+            self._process_section(section, indices)
+        return indices
+
+    def render(self, context: dict[str, Any] | None = None) -> Self:
+        """Render the contract with the given context.
 
         Args:
             context (dict[str, Any] | None): The context data for rendering.
@@ -47,30 +105,19 @@ class Contract(BaseModel):
         if not context:
             return self
 
-        # Render each section if it has a render method
-        if hasattr(self.parties, "render") and callable(self.parties.render):
-            self.parties.render(context)
-        elif isinstance(self.parties, str):
-            template = Template(self.parties)
-            self.parties = template.render(**context)
+        # First assign positions to all elements
+        self.assign_positions()
 
-        if hasattr(self.considerations, "render") and callable(self.considerations.render):
-            self.considerations.render(context)
-        elif isinstance(self.considerations, str):
-            template = Template(self.considerations)
-            self.considerations = template.render(**context)
+        # Get clause and paragraph indices
+        indices = self.get_indices()
 
-        if hasattr(self.agreements, "render") and callable(self.agreements.render):
-            self.agreements.render(context)
-        elif isinstance(self.agreements, str):
-            template = Template(self.agreements)
-            self.agreements = template.render(**context)
+        # Merge indices with the provided context
+        full_context = {**context, **indices}
 
-        if hasattr(self.signatures, "render") and callable(self.signatures.render):
-            self.signatures.render(context)
-        elif isinstance(self.signatures, str):
-            template = Template(self.signatures)
-            self.signatures = template.render(**context)
+        # Render each section with the full context
+        for section in self._get_sections():
+            if hasattr(section, "render"):
+                section.render(full_context)
 
         return self
 
@@ -84,7 +131,7 @@ class Contract(BaseModel):
         parts = []
 
         # Add each section
-        for section in [self.parties, self.considerations, self.agreements, self.signatures]:
+        for section in self._get_sections():
             if hasattr(section, "to_string") and callable(section.to_string):
                 parts.append(section.to_string())
             elif isinstance(section, str):

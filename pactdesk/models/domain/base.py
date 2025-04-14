@@ -132,10 +132,12 @@ class Clause(BaseModel):
         title (str): The title of the clause.
         content (str): The content of the clause.
         paragraphs (list[Paragraph] | None): Optional list of paragraphs.
+        position (int | None): The position of this clause in the document.
     """
 
     title: str = Field(..., description="The title of the clause")
     paragraphs: list[Paragraph] | None = Field(None, description="Optional list of paragraphs")
+    position: int | None = Field(None, description="The position of this clause in the document")
 
     def render(self, context: dict[str, Any] | None = None) -> Self:
         """Render the clause with its title, content, and paragraphs using Jinja2.
@@ -171,6 +173,7 @@ class Section(BaseModel):
         title (str): The title of the section.
         subsections (list[BaseText | Paragraph | Clause]): List of subsections.
         closing (BaseText | None): Optional closing statement.
+        position (int | None): The position of this section in the document.
     """
 
     title: str = Field(..., description="The title of the section")
@@ -178,6 +181,7 @@ class Section(BaseModel):
         default_factory=list, description="List of subsections"
     )
     closing: BaseText | None = Field(None, description="Optional closing statement")
+    position: int | None = Field(None, description="The position of this section in the document")
 
     def render(self, context: dict[str, Any] | None = None) -> Self:
         """Render the section using Jinja2.
@@ -203,6 +207,29 @@ class Section(BaseModel):
             self.closing.render(context)
 
         return self
+
+    def assign_positions(self, start_position: int = 1) -> int:
+        """Assign positions to all clauses and paragraphs in this section.
+
+        Args:
+            start_position (int): The starting position for this section.
+
+        Returns
+        -------
+            int: The next available position after this section.
+        """
+        self.position = start_position
+        current_position = start_position
+
+        for subsection in self.subsections:
+            if isinstance(subsection, Clause):
+                subsection.position = current_position
+                current_position += 1
+                if subsection.paragraphs:
+                    for i, paragraph in enumerate(subsection.paragraphs, 1):
+                        paragraph.position = i
+
+        return current_position
 
     def to_string(self) -> str:
         """Convert the section to a string representation.
