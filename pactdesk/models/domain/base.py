@@ -5,9 +5,10 @@ It includes classes for text elements, paragraphs, clauses, sections, and signat
 support for template-based rendering using Jinja2.
 """
 
-from typing import Any
+from typing import Any, Self
 
-from pydantic import BaseModel, Field
+from jinja2 import Template
+from pydantic import BaseModel, Field, model_validator
 
 
 class BaseText(BaseModel):
@@ -23,23 +24,24 @@ class BaseText(BaseModel):
 
     content: str = Field(..., description="The text content of the element")
 
-    def render(self, context: dict[str, Any] | None = None) -> str:
-        """Render the text content with the given context.
-
-        This method formats the text content using the provided context data,
-        replacing placeholders with actual values.
+    def render(self, context: dict[str, Any] | None = None) -> Self:
+        """Render the text content with the given context using Jinja2.
 
         Args:
             context (dict[str, Any] | None): The context data for rendering.
 
         Returns
         -------
-            Self: A new instance with rendered content.
+            Self: The instance with rendered content.
         """
         if not context:
-            return self.content
+            return self
 
-        return self.content.format(**context)
+        # Render content using Jinja2 Template
+        template = Template(self.content)
+        self.content = template.render(**context)
+
+        return self
 
 
 class Paragraph(BaseText):
@@ -51,111 +53,174 @@ class Paragraph(BaseText):
     Attributes
     ----------
         heading (str | None): Optional heading for the paragraph.
-        subparagraphs (list[BaseText] | None): Optional list of subparagraphs.
+        subparagraphs (list[BaseText] | None): Optional list of subparagraphs,
+            where each subparagraph is a BaseText instance.
     """
 
     heading: str | None = Field(None, description="Optional heading for the paragraph")
-    subparagraphs: list[str] | None = Field(None, description="Optional list of subparagraphs")
+    subparagraphs: list[BaseText] | None = Field(
+        None, description="Optional list of BaseText subparagraphs"
+    )
 
-    def render(self, context: dict[str, Any] | None = None) -> str:
-        """Render the paragraph with its heading and subparagraphs.
+    @classmethod
+    @model_validator(mode="before")  # type: ignore[misc]
+    def preprocess_subparagraphs(cls, data: dict[str, Any]) -> dict[str, Any]:
+        """Preprocess subparagraphs to handle various input formats.
 
-        This method formats the paragraph content, including any heading and
-        subparagraphs, using the provided context data.
+        This validator handles different formats of subparagraphs found in templates:
+        - List of dictionaries with 'content' field
+        - List of strings
+
+        Args:
+            data (Dict[str, Any]): The raw input data.
+
+        Returns
+        -------
+            Dict[str, Any]: The processed data.
+        """
+        if isinstance(data, dict) and "subparagraphs" in data and data["subparagraphs"] is not None:
+            processed = []
+
+            for item in data["subparagraphs"]:
+                if isinstance(item, BaseText):
+                    processed.append(item)
+
+                elif isinstance(item, dict) and "content" in item:
+                    processed.append(BaseText(content=item["content"]))
+
+                elif isinstance(item, str):
+                    processed.append(BaseText(content=item))
+
+            data["subparagraphs"] = processed
+
+        return data
+
+    def render(self, context: dict[str, Any] | None = None) -> Self:
+        """Render the paragraph with its heading and subparagraphs using Jinja2.
 
         Args:
             context (dict[str, Any] | None): The context data for rendering.
 
         Returns
         -------
-            str: The rendered paragraph content.
+            Self: The instance with rendered content.
         """
-        rendered_content = super().render(context)
+        if not context:
+            return self
+
+        super().render(context)
 
         if self.heading:
-            rendered_content = f"{self.heading}\n{rendered_content}"
+            template = Template(self.heading)
+            self.heading = template.render(**context)
 
         if self.subparagraphs:
-            subparagraphs = [p.format(**context) if context else p for p in self.subparagraphs]
-            rendered_content = f"{rendered_content}\n" + "\n".join(subparagraphs)
+            for subparagraph in self.subparagraphs:
+                subparagraph.render(context)
 
-        return rendered_content
+        return self
 
 
-class Clause(BaseText):
+class Clause(BaseModel):
     """Model for clauses in contract documents.
 
     This class represents a clause in a contract document, which includes a
-    title and content, and may include paragraphs.
+    title and may include content and paragraphs.
 
     Attributes
     ----------
         title (str): The title of the clause.
+        content (str): The content of the clause.
         paragraphs (list[Paragraph] | None): Optional list of paragraphs.
     """
 
     title: str = Field(..., description="The title of the clause")
     paragraphs: list[Paragraph] | None = Field(None, description="Optional list of paragraphs")
 
-    def render(self, context: dict[str, Any] | None = None) -> str:
-        """Render the clause with its title and paragraphs.
-
-        This method formats the clause content, including its title and any
-        paragraphs, using the provided context data.
+    def render(self, context: dict[str, Any] | None = None) -> Self:
+        """Render the clause with its title, content, and paragraphs using Jinja2.
 
         Args:
             context (dict[str, Any] | None): The context data for rendering.
 
         Returns
         -------
-            str: The rendered clause content.
+            Self: The instance with rendered content.
         """
-        rendered_content = super().render(context)
+        if not context:
+            return self
+
+        title_template = Template(self.title)
+        self.title = title_template.render(**context)
 
         if self.paragraphs:
-            paragraphs = [p.render(context) for p in self.paragraphs]
-            rendered_content = f"{rendered_content}\n" + "\n\n".join(paragraphs)
+            for paragraph in self.paragraphs:
+                paragraph.render(context)
 
-        return rendered_content
+        return self
 
 
-class Section(BaseText):
+class Section(BaseModel):
     """Model for sections in contract documents.
 
     This class represents a section in a contract document, which includes
-    content and may include subsections and a closing statement.
+    a title and subsections, and may include a closing statement.
 
     Attributes
     ----------
+        title (str): The title of the section.
         subsections (list[BaseText | Paragraph | Clause]): List of subsections.
         closing (BaseText | None): Optional closing statement.
     """
 
+    title: str = Field(..., description="The title of the section")
     subsections: list[BaseText | Paragraph | Clause] = Field(
         default_factory=list, description="List of subsections"
     )
     closing: BaseText | None = Field(None, description="Optional closing statement")
 
-    def render(self, context: dict[str, Any] | None = None) -> str:
-        """Render the section with its subsections and closing.
-
-        This method formats the section content, including all subsections and
-        any closing statement, using the provided context data.
+    def render(self, context: dict[str, Any] | None = None) -> Self:
+        """Render the section using Jinja2.
 
         Args:
             context (dict[str, Any] | None): The context data for rendering.
 
         Returns
         -------
-            str: The rendered section content.
+            Self: The instance with rendered content.
         """
-        rendered_content = super().render(context)
+        if not context:
+            return self
 
-        if self.subsections:
-            subsections = [s.render(context) for s in self.subsections]
-            rendered_content = f"{rendered_content}\n" + "\n\n".join(subsections)
+        title_template = Template(self.title)
+        self.title = title_template.render(**context)
+
+        for subsection in self.subsections:
+            if hasattr(subsection, "render") and callable(subsection.render):
+                subsection.render(context)
 
         if self.closing:
-            rendered_content = f"{rendered_content}\n{self.closing.render(context)}"
+            self.closing.render(context)
 
-        return rendered_content
+        return self
+
+    def to_string(self) -> str:
+        """Convert the section to a string representation.
+
+        Returns
+        -------
+            str: The string representation of the section.
+        """
+        parts = [self.title]
+
+        for subsection in self.subsections:
+            if hasattr(subsection, "to_string") and callable(subsection.to_string):
+                parts.append(subsection.to_string())
+
+            elif isinstance(subsection, BaseText) or hasattr(subsection, "content"):
+                parts.append(subsection.content)
+
+        if self.closing:
+            parts.append(self.closing.content)
+
+        return "\n\n".join(parts)

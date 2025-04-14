@@ -10,7 +10,8 @@ from typing import Annotated, Literal, Self, TypeVar
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from pactdesk.models.domain.enum import CompanyType, InformationRole, PartyType
+from pactdesk.models.domain.enum import CompanyType, PartyType
+from pactdesk.models.domain.role import Role
 
 
 T = TypeVar("T", bound=BaseModel)
@@ -28,6 +29,7 @@ class BaseParty(BaseModel):
     """
 
     party_type: str
+    role: Role | None = None
 
 
 class Address(BaseModel):
@@ -108,7 +110,7 @@ class NaturalPerson(BaseParty):
         date_of_birth (str): The person's date of birth.
         place_of_birth (str): The person's place of birth.
         country_of_birth (str): The person's country of birth.
-        information_role (InformationRole | None): The person's role in the contract.
+        role (InformationRole | None): The person's role in the contract.
     """
 
     party_type: Literal["natural_person"] = PartyType.NATURAL_PERSON.value
@@ -117,7 +119,7 @@ class NaturalPerson(BaseParty):
     date_of_birth: str
     place_of_birth: str
     country_of_birth: str
-    information_role: InformationRole | None = None
+    role: Role | None = None
 
 
 class LegalEntity(BaseParty):
@@ -135,7 +137,7 @@ class LegalEntity(BaseParty):
         country_of_incorporation (str): The country where the entity is incorporated.
         kvk_nr (str): The Chamber of Commerce registration number.
         signatory_name (str): The name of the authorized signatory.
-        information_role (InformationRole | None): The entity's role in the contract.
+        role (InformationRole | None): The entity's role in the contract.
     """
 
     party_type: Literal["legal_entity"] = PartyType.LEGAL_ENTITY.value
@@ -145,7 +147,7 @@ class LegalEntity(BaseParty):
     country_of_incorporation: str
     kvk_nr: str
     signatory_name: str
-    information_role: InformationRole | None = None
+    role: Role | None = None
 
 
 Party = Annotated[NaturalPerson | LegalEntity, Field(discriminator="party_type")]
