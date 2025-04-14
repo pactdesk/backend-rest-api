@@ -11,7 +11,7 @@ from typing import Self, TypeVar
 from pydantic import Field, model_validator
 
 from pactdesk.models.api.contract.base import BaseContractRequest
-from pactdesk.models.domain.enum import ContractType, NdaContractVariant
+from pactdesk.models.domain.enum import ContractType, InformationRole, NdaContractVariant
 from pactdesk.models.domain.penalty import Penalty
 from pactdesk.models.domain.term import Term
 
@@ -47,7 +47,7 @@ class NondisclosureRequest(BaseContractRequest):
     limited_term: Term | None = None
 
     @model_validator(mode="after")  # type: ignore[misc]
-    def validate_information_roles(self) -> Self:
+    def validate_roles(self) -> Self:
         """Validate the information roles of parties in the NDA.
 
         This validator ensures all parties have an assigned information role and for
@@ -63,16 +63,18 @@ class NondisclosureRequest(BaseContractRequest):
                 an incorrect number of disclosing parties.
         """
         for party_key, party in self.parties.items():
-            if not party.information_role:
+            if not hasattr(party, "role"):
                 err_msg = f"Information role must be set for party '{party_key}' in an NDA contract"
                 raise ValueError(err_msg)
+
+            party.role = InformationRole(party.role)
 
         if self.contract_variant in [
             NdaContractVariant.UNILATERAL_STANDARD,
             NdaContractVariant.UNILATERAL_MULTI,
         ]:
             disclosing_count = sum(
-                party.information_role == "DISCLOSING" for party in self.parties.values()
+                party.role == InformationRole.DISCLOSING for party in self.parties.values()
             )
 
             if disclosing_count != 1:
