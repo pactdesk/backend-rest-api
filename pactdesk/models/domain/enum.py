@@ -73,7 +73,7 @@ class PartyType(str, Enum):
 
 class InformationRole(str, Enum):
     """
-    Enumeration of information roles in nondisclosure agreements.
+    Enumeration of information roles in non-disclosure agreements.
 
     This enum defines the different roles that parties can have regarding
     confidential information in an NDA, determining their rights and obligations.
@@ -88,6 +88,23 @@ class InformationRole(str, Enum):
     DISCLOSING = "DISCLOSING"
     RECEIVING = "RECEIVING"
     MUTUAL = "MUTUAL"
+
+
+class ManagementRole(str, Enum):
+    """Enumeration of management roles in management agreements.
+
+    This enum defines the different roles that parties can have in a management
+    agreement, determining their rights and obligations in the management
+    relationship.
+
+    Values
+    ------
+        PRINCIPAL: The party engaging the management services
+        CONTRACTOR: The party providing the management services
+    """
+
+    PRINCIPAL = "PRINCIPAL"
+    CONTRACTOR = "CONTRACTOR"
 
 
 class CompanyType(str, Enum):
