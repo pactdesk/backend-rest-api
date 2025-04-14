@@ -112,9 +112,9 @@ class NondisclosureService:
 
         party_keys = [key for key in party_context if key != "_global"]
         subsections: list[BaseText] = [
-            self.template_service.load_legal_entity()
+            self.template_service.load_legal_entity().render(party_context[party])
             if party_context[party]["type"] == PartyType.LEGAL_ENTITY.value
-            else self.template_service.load_natural_person()
+            else self.template_service.load_natural_person().render(party_context[party])
             for party in party_keys
         ]
 
@@ -176,7 +176,6 @@ class NondisclosureService:
 
         clauses: list[Clause] = []
         for clause in self.standard_clauses:
-            logger.debug(f"Loading clause: {clause}")
             try:
                 clause_data = self.template_service.load(clauses_path / f"{clause}.json")
                 clauses.append(Clause(**clause_data))
@@ -186,18 +185,15 @@ class NondisclosureService:
                 raise
 
         term_type = "limited" if self.request.limited_term else "unlimited"
-        logger.debug(f"Loading term clause: {term_type}")
         term_clause = Clause(
             **self.template_service.load(agreements_path / "term" / f"{term_type}.json")
         )
 
         if self.request.penalty_clause:
-            logger.debug("Loading enforcement_and_penalties.json")
             enforcement_clause = Clause(
                 **self.template_service.load(clauses_path / "enforcement_and_penalties.json")
             )
         else:
-            logger.debug("Loading enforcement_and_remedies.json")
             enforcement_clause = Clause(
                 **self.template_service.load(clauses_path / "enforcement_and_remedies.json")
             )
@@ -242,7 +238,7 @@ class NondisclosureService:
             raise ValueError(err_msg)
 
         return Contract(
-            parties=self._generate_parties().render(self.party_context),
+            parties=self._generate_parties(),
             considerations=self._generate_considerations().render(self.context),
             agreements=self._generate_agreements().render(self.context),
             signatures=self._generate_signatures().render(self.context),

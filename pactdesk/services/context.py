@@ -51,7 +51,7 @@ class ContextService(BaseModel):
             if total_parties == 2:
                 role = (
                     "the Disclosing Party"
-                    if party.information_role == InformationRole.DISCLOSING
+                    if party.role == InformationRole.DISCLOSING
                     else "the Receiving Party"
                 )
             else:
@@ -149,7 +149,22 @@ class ContextService(BaseModel):
         -------
             dict[str, str | int | None]: The constructed management context.
         """
-        return {}
+        return {
+            "city": request.place_of_jurisdiction,
+            "country": request.applicable_law,
+            "business_activities": request.business_activities,
+            "date_of_appointment": request.date_of_appointment,
+            "term_start_date": request.term_start_date,
+            "notice_period_amount": request.notice_period_amount,
+            "notice_period_unit": request.notice_period_unit,
+            "fee_amount": request.fee_amount,
+            "hours_amount": request.hours_amount,
+            "prior_approval_amount": request.prior_approval_amount,
+            "reimbursement_amount_of_days": request.reimbursement_amount_of_days,
+            "reimbursement_amount_unit": request.reimbursement_amount_unit,
+            "invoice_duration": request.invoice_duration,
+            "invoice_duration_unit": request.invoice_duration_unit,
+        }
 
     @staticmethod
     def construct_context(request: ContractRequest) -> dict[str, str | int | None] | None:
