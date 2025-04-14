@@ -9,7 +9,9 @@ from typing import TypeVar
 
 from pydantic import BaseModel, field_validator
 
+from pactdesk.models.domain.enum import ContractType, InformationRole, ManagementRole
 from pactdesk.models.domain.party import LegalEntity, NaturalPerson, Party
+from pactdesk.models.domain.role import Role
 
 
 T = TypeVar("T", bound=BaseModel)
@@ -41,16 +43,14 @@ class BaseContractRequest(BaseModel):
             proceedings related to the contract must be conducted.
     """
 
-    contract_type: str
+    contract_type: ContractType
     parties: dict[str, Party]
     applicable_law: str
     place_of_jurisdiction: str
 
-    @classmethod
     @field_validator("parties")  # type: ignore[misc]
-    def validate_parties(
-        cls: type[T], value: dict[str, Party]
-    ) -> dict[str, NaturalPerson | LegalEntity]:
+    @classmethod
+    def validate_parties(cls, value: dict[str, Party]) -> dict[str, NaturalPerson | LegalEntity]:
         """Validate that the parties dictionary contains at least one party.
 
         This validator ensures that every contract request has at least one party
@@ -59,7 +59,7 @@ class BaseContractRequest(BaseModel):
         legally meaningless.
 
         Args:
-            cls (type[T]): The class object, automatically provided by the decorator.
+            cls: The class object, automatically provided by the decorator.
             value (dict[str, Party]): Dictionary mapping party identifiers to Party
                 objects, representing all entities involved in the contract.
 
@@ -77,3 +77,33 @@ class BaseContractRequest(BaseModel):
             raise ValueError(err_msg)
 
         return value
+
+    @classmethod
+    def get_contract_role(cls, contract_type: ContractType) -> type[Role]:
+        """Get the appropriate role type for a given contract type.
+
+        This method maps contract types to their corresponding role types,
+        ensuring that the correct role model is used for validation and
+        processing of contract requests.
+
+        Args:
+            contract_type (ContractType): The type of contract to get the role type for.
+
+        Returns
+        -------
+            type[Role]: The role type class corresponding to the contract type.
+
+        Raises
+        ------
+            ValueError: If no role type is defined for the given contract type.
+        """
+        role_types: dict[ContractType, type[Role]] = {
+            ContractType.NONDISCLOSURE: InformationRole,
+            ContractType.MANAGEMENT: ManagementRole,
+        }
+
+        if role_type := role_types.get(contract_type):
+            return role_type
+
+        err_msg = f"No role type defined for contract type: {contract_type}"
+        raise ValueError(err_msg)
