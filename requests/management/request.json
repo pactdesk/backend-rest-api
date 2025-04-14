@@ -3,6 +3,7 @@
   "parties": {
     "party_a": {
       "party_type": "legal_entity",
+      "name": "Company A",
       "company_type": "B.V.",
       "registered_address": {
         "street_name": "Stadshouderskade",
@@ -18,6 +19,7 @@
     },
     "party_b": {
       "party_type": "legal_entity",
+      "name": "Company B",
       "company_type": "B.V.",
       "registered_address": {
         "street_name": "Volewijkshof",
@@ -29,20 +31,20 @@
       "kvk_nr": "90274828",
       "signatory_name": "M. Brickerd",
       "role": "CONTRACTOR"
-    },
-    "business_activities": "providing tax services in the Cloud",
-    "date_of_appointment": "2025-01-01",
-    "term_start_date": "2025-01-01",
-    "notice_period_amount": "1",
-    "notice_period_unit": "month",
-    "fee_amount": "1000",
-    "hours_amount": "10",
-    "prior_approval_amount": "100",
-    "reimbursement_amount_of_days": "10",
-    "reimbursement_amount_unit": "days",
-    "invoice_duration": "14",
-    "invoice_duration_unit": "days",
-    "applicable_law": "the Netherlands",
-    "place_of_jurisdiction": "Amsterdam"
-  }
+    }
+  },
+  "business_activities": "providing tax services in the Cloud",
+  "date_of_appointment": "2025-01-01",
+  "term_start_date": "2025-01-01",
+  "notice_period_amount": "1",
+  "notice_period_unit": "month",
+  "fee_amount": "1000",
+  "hours_amount": "10",
+  "prior_approval_amount": "100",
+  "reimbursement_amount_of_days": "10",
+  "reimbursement_amount_unit": "days",
+  "invoice_duration": "14",
+  "invoice_duration_unit": "days",
+  "applicable_law": "the Netherlands",
+  "place_of_jurisdiction": "Amsterdam"
 }

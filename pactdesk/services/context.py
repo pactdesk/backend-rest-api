@@ -164,6 +164,20 @@ class ContextService(BaseModel):
             "reimbursement_amount_unit": request.reimbursement_amount_unit,
             "invoice_duration": request.invoice_duration,
             "invoice_duration_unit": request.invoice_duration_unit,
+            "liability_clause_idx": None,
+            "confidentiality_clause_idx": None,
+            "company_property_clause_idx": None,
+            "company_property_paragraph_1": None,
+            "company_property_paragraph_2": None,
+            "fee_and_expenses_clause_idx": None,
+            "fee_and_expenses_paragraph_1": None,
+            "fee_and_expenses_paragraph_3": None,
+            "intellectual_property_rights_paragraph_1": None,
+            "intellectual_property_rights_paragraph_2": None,
+            "intellectual_property_rights_paragraph_3": None,
+            "termination_clause_idx": None,
+            "termination_paragraph_1": None,
+            "termination_paragraph_2": None,
         }
 
     @staticmethod
