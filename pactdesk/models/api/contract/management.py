@@ -59,7 +59,7 @@ class ManagementRequest(BaseContractRequest):
     invoice_duration_unit: str
     applicable_law: str
     place_of_jurisdiction: str
-    
+
     @model_validator(mode="after")  # type: ignore[misc]
     def validate_parties(self) -> Self:
         """Validate the number of parties in the management contract.
@@ -74,10 +74,13 @@ class ManagementRequest(BaseContractRequest):
         ------
             ValueError: If the number of parties is not exactly two.
         """
+        if not hasattr(self, "parties") or not isinstance(self.parties, dict):
+            return self
+
         if len(self.parties) != 2:
             err_msg = "Management contracts must have exactly two parties"
             raise ValueError(err_msg)
-        
+
         return self
 
     @model_validator(mode="after")  # type: ignore[misc]
@@ -95,9 +98,12 @@ class ManagementRequest(BaseContractRequest):
         ------
             ValueError: If the roles are not exactly one Principal and one Contractor.
         """
+        if not hasattr(self, "parties") or not isinstance(self.parties, dict):
+            return self
+
         roles = [party.role for party in self.parties.values()]
         if not (ManagementRole.PRINCIPAL in roles and ManagementRole.CONTRACTOR in roles):
             err_msg = "Management contracts must have exactly one Principal and one Contractor"
             raise ValueError(err_msg)
-        
+
         return self

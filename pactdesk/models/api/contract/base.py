@@ -48,9 +48,67 @@ class BaseContractRequest(BaseModel):
     applicable_law: str
     place_of_jurisdiction: str
 
+    @field_validator("parties", mode="before")  # type: ignore[misc]
+    @classmethod
+    def convert_parties(cls, value: dict[str, dict], info) -> dict[str, Party]:  # type: ignore[no-untyped-def]
+        """Convert raw party dictionaries to Party objects.
+
+        This validator converts the raw party data from the request into proper
+        Party objects (either NaturalPerson or LegalEntity) based on the party_type.
+
+        Args:
+            cls: The class object, automatically provided by the decorator.
+            value (dict[str, dict]): Dictionary mapping party identifiers to raw
+                party data dictionaries.
+
+        Returns
+        -------
+            dict[str, Party]: Dictionary mapping party identifiers to Party objects.
+
+        Raises
+        ------
+            ValueError: If an invalid party type is encountered.
+        """
+        converted_parties: dict[str, Party] = {}
+
+        # Get the contract type from the validation context
+        contract_type = info.data.get("contract_type")
+        if not contract_type:
+            err_msg = "Contract type must be specified before parties can be converted"
+            raise ValueError(err_msg)
+
+        # Get the appropriate role type for this contract
+        role_type = cls.get_contract_role(ContractType(contract_type))
+
+        for key, party_data in value.items():
+            party_type = party_data.get("party_type")
+
+            # Create a copy of the party data to avoid modifying the original
+            party_data = party_data.copy()
+
+            # Convert the role string to the appropriate enum
+            if "role" in party_data:
+                try:
+                    party_data["role"] = role_type(party_data["role"])
+                except ValueError as e:
+                    err_msg = (
+                        f"Invalid role value for {contract_type} contract: " f"{party_data['role']}"
+                    )
+                    raise ValueError(err_msg) from e
+
+            if party_type == "natural_person":
+                converted_parties[key] = NaturalPerson(**party_data)
+            elif party_type == "legal_entity":
+                converted_parties[key] = LegalEntity(**party_data)
+            else:
+                err_msg = f"Invalid party type: {party_type}"
+                raise ValueError(err_msg)
+
+        return converted_parties
+
     @field_validator("parties")  # type: ignore[misc]
     @classmethod
-    def validate_parties(cls, value: dict[str, Party]) -> dict[str, NaturalPerson | LegalEntity]:
+    def validate_parties(cls, value: dict[str, Party]) -> dict[str, Party]:
         """Validate that the parties dictionary contains at least one party.
 
         This validator ensures that every contract request has at least one party
@@ -65,7 +123,7 @@ class BaseContractRequest(BaseModel):
 
         Returns
         -------
-            dict[str, NaturalPerson | LegalEntity]: The validated parties dictionary,
+            dict[str, Party]: The validated parties dictionary,
                 containing at least one party.
 
         Raises
